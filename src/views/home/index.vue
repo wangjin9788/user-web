@@ -1,32 +1,36 @@
 <template>
   <div class="app-container">
     <div class="address-layout">
-      <el-row :gutter="20">
-        <el-col :span="6">
+      <el-row >
+        <el-col :span="10" style="padding-right: 40px">
           <div class="out-border">
             <div class="layout-title">后台项目</div>
-            <div class="color-main address-content">
-              <a href="https://github.com/macrozheng/mall">mall</a>
+             <div>
+              <ve-pie
+                :data="yearChartData"
+                :legend-visible="true"
+                :loading="loading"
+                :data-empty="dataEmpty"
+                :settings="yearChartSettings"
+               ></ve-pie>
             </div>
           </div>
-        </el-col>
-        <el-col :span="6">
-          <div class="out-border">
-            <div class="layout-title">前端项目</div>
-            <div class="color-main address-content">
-              <a href="https://github.com/macrozheng/mall-admin-web">mall-admin-web</a>
-            </div>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div class="out-border">
-            <div class="layout-title">学习教程</div>
-            <div class="color-main address-content">
-              <a href="https://github.com/macrozheng/mall-learning">mall-learning</a>
-            </div>
-          </div>
-        </el-col>
+        </el-col >
+          <el-col :span="10" style="padding-right: 40px">
+              <div class="out-border">
+                <div class="layout-title">后台项目</div>
+                 <div>
+                  <ve-pie
+                    :data="chartData"
+                    :legend-visible="false"
+                    :loading="loading"
+                    :data-empty="dataEmpty"
+                    :settings="chartSettings"></ve-pie>
+                </div>
+              </div>
+            </el-col>
       </el-row>
+
     </div>
     <div class="total-layout">
       <el-row :gutter="20">
@@ -60,72 +64,6 @@
           <!--</div>-->
         <!--</el-col>-->
       </el-row>
-    </div>
-
-    <div class="un-handle-layout">
-      <div class="layout-title">待处理事务</div>
-      <div class="un-handle-content">
-        <el-row :gutter="20">
-          <el-col :span="8">
-            <div class="un-handle-item">
-              <span class="font-medium">待付款订单</span>
-              <span style="float: right" class="color-danger">(10)</span>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div class="un-handle-item">
-              <span class="font-medium">已完成订单</span>
-              <span style="float: right" class="color-danger">(10)</span>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div class="un-handle-item">
-              <span class="font-medium">待确认收货订单</span>
-              <span style="float: right" class="color-danger">(10)</span>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="8">
-            <div class="un-handle-item">
-              <span class="font-medium">待发货订单</span>
-              <span style="float: right" class="color-danger">(10)</span>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div class="un-handle-item">
-              <span class="font-medium">新缺货登记</span>
-              <span style="float: right" class="color-danger">(10)</span>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div class="un-handle-item">
-              <span class="font-medium">待处理退款申请</span>
-              <span style="float: right" class="color-danger">(10)</span>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="8">
-            <div class="un-handle-item">
-              <span class="font-medium">已发货订单</span>
-              <span style="float: right" class="color-danger">(10)</span>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div class="un-handle-item">
-              <span class="font-medium">待处理退货订单</span>
-              <span style="float: right" class="color-danger">(10)</span>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div class="un-handle-item">
-              <span class="font-medium">广告位即将到期</span>
-              <span style="float: right" class="color-danger">(10)</span>
-            </div>
-          </el-col>
-        </el-row>
-      </div>
     </div>
     <div class="overview-layout">
       <el-row :gutter="20">
@@ -172,42 +110,6 @@
     <div class="statistics-layout">
       <div class="layout-title">订单统计</div>
       <el-row>
-        <el-col :span="4">
-          <div style="padding: 20px">
-            <div>
-              <div style="color: #909399;font-size: 14px">本月订单总数</div>
-              <div style="color: #606266;font-size: 24px;padding: 10px 0">10000</div>
-              <div>
-                <span class="color-success" style="font-size: 14px">+10%</span>
-                <span style="color: #C0C4CC;font-size: 14px">同比上月</span>
-              </div>
-            </div>
-            <div style="margin-top: 20px;">
-              <div style="color: #909399;font-size: 14px">本周订单总数</div>
-              <div style="color: #606266;font-size: 24px;padding: 10px 0">1000</div>
-              <div>
-                <span class="color-danger" style="font-size: 14px">-10%</span>
-                <span style="color: #C0C4CC;font-size: 14px">同比上周</span>
-              </div>
-            </div>
-            <div style="margin-top: 20px;">
-              <div style="color: #909399;font-size: 14px">本月销售总额</div>
-              <div style="color: #606266;font-size: 24px;padding: 10px 0">100000</div>
-              <div>
-                <span class="color-success" style="font-size: 14px">+10%</span>
-                <span style="color: #C0C4CC;font-size: 14px">同比上月</span>
-              </div>
-            </div>
-            <div style="margin-top: 20px;">
-              <div style="color: #909399;font-size: 14px">本周销售总额</div>
-              <div style="color: #606266;font-size: 24px;padding: 10px 0">50000</div>
-              <div>
-                <span class="color-danger" style="font-size: 14px">-10%</span>
-                <span style="color: #C0C4CC;font-size: 14px">同比上周</span>
-              </div>
-            </div>
-          </div>
-        </el-col>
         <el-col :span="20">
           <div style="padding: 10px;border-left:1px solid #DCDFE6">
             <el-date-picker
@@ -226,7 +128,7 @@
             <div>
               <ve-histogram
                 :data="chartData"
-                :legend-visible="false"
+                :legend-visible="true"
                 :loading="loading"
                 :data-empty="dataEmpty"
                 :settings="chartSettings"></ve-histogram>
@@ -243,6 +145,7 @@
   import img_home_order from '@/assets/images/home_order.png';
   import img_home_today_amount from '@/assets/images/home_today_amount.png';
   import img_home_yesterday_amount from '@/assets/images/home_yesterday_amount.png';
+  /**创建每日数据/
   const DATA_FROM_BACKEND = {
     columns: ['date', 'orderCount','orderAmount'],
     rows: [
@@ -263,44 +166,20 @@
       {date: '2018-11-15', orderCount: 40, orderAmount: 4293}
     ]
   };
+/*1.创建统计表初始化统计图*/
   export default {
     name: 'home',
     data() {
       return {
-        pickerOptions: {
-          shortcuts: [{
-            text: '最近一周',
-            onClick(picker) {
-              const end = new Date();
-              let start = new Date();
-              start.setFullYear(2018);
-              start.setMonth(10);
-              start.setDate(1);
-              end.setTime(start.getTime() + 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: '最近一月',
-            onClick(picker) {
-              const end = new Date();
-              let start = new Date();
-              start.setFullYear(2018);
-              start.setMonth(10);
-              start.setDate(1);
-              end.setTime(start.getTime() + 3600 * 1000 * 24 * 30);
-              picker.$emit('pick', [start, end]);
-            }
-          }]
-        },
         orderCountDate: '',
         chartSettings: {
           xAxisType: 'time',
           area:true,
-          axisSite: { right: ['orderAmount']},
-        labelMap: {'orderCount': '订单数量', 'orderAmount': '订单金额'}},
-        chartData: {
+          labelMap: {'orderCount': '订单数量', 'orderAmount': '订单金额'}},
+          chartData: {
           columns: [],
-          rows: []
+          rows: [],
+          tooltipShow: true
         },
         loading: false,
         dataEmpty: false,
@@ -309,10 +188,12 @@
         img_home_yesterday_amount
       }
     },
+    /*2.初始化日期时间 获取数据*/
     created(){
       this.initOrderCountDate();
       this.getData();
     },
+    /** 3. 选择时间后从新拉取数据*/
     methods:{
       handleDateChange(){
         this.getData();
@@ -326,6 +207,7 @@
         end.setTime(start.getTime() + 1000 * 60 * 60 * 24 * 7);
         this.orderCountDate=[start,end];
       },
+      /** 4.拉取数据 */
       getData(){
         setTimeout(() => {
           this.chartData = {
@@ -344,7 +226,7 @@
           this.dataEmpty = false;
           this.loading = false
         }, 1000)
-      }
+      },
     }
   }
 </script>
@@ -357,6 +239,7 @@
   }
 
   .address-layout {
+  width: 120%;
   }
 
   .total-layout {
@@ -383,14 +266,6 @@
     top: -50px;
   }
 
-  .total-value {
-    position: relative;
-    font-size: 18px;
-    color: #606266;
-    left: 70px;
-    top: -40px;
-  }
-
   .un-handle-layout {
     margin-top: 20px;
     border: 1px solid #DCDFE6;
@@ -398,7 +273,7 @@
 
   .layout-title {
     color: #606266;
-    padding: 15px 20px;
+    padding: 25px 50px;
     background: #F2F6FC;
     font-weight: bold;
   }
