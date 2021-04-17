@@ -17,3 +17,15 @@ export function getPayCategoryRate(yearPayTime) {
     method: 'get',
   })
 }
+export function getMonthData() {
+  return request({
+    url: '/pay-analysis/month',
+    method: 'get',
+  })
+}
+export function getYearData() {
+  return request({
+    url: '/pay-analysis/year',
+    method: 'get',
+  })
+}

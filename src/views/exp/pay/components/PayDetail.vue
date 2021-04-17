@@ -43,9 +43,8 @@
     data() {
       return {
         pay: Object.assign({}, defaultPay),
-        selectPayLists:  getCategory().then(response => {
-                                    this.selectPayLists = response.data;
-                                    })
+        selectPayLists:getCategory().then(response => {
+                  this.selectPayLists = response.data;})
       }
     },
     created() {
