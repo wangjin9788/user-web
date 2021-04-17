@@ -5,3 +5,15 @@ export function getPayAndRevenue() {
     method: 'get',
   })
 }
+export function getYearPicRate(yearPic) {
+  return request({
+    url: '/pay-analysis/year_pic_analysis/' + yearPic,
+    method: 'get',
+  })
+}
+export function getPayCategoryRate(yearPayTime) {
+  return request({
+    url: '/pay-analysis/pay_category_analysis/' + yearPayTime,
+    method: 'get',
+  })
+}

@@ -7,11 +7,12 @@
             <div class="layout-title">后台项目</div>
              <div>
               <ve-pie
-                :data="chartData"
+                :data="payChartData"
                 :legend-visible="true"
                 :loading="loading"
                 :data-empty="dataEmpty"
-                :settings="chartSettings"
+                :colors="['#40DBBC', '#3A9DFF']"
+                :yearPic="yearPic"
                ></ve-pie>
             </div>
           </div>
@@ -21,11 +22,13 @@
                 <div class="layout-title">后台项目</div>
                  <div>
                   <ve-pie
-                    :data="chartData"
-                    :legend-visible="false"
+                    :data="payCategoryChartData"
+                    :legend-visible="true"
                     :loading="loading"
                     :data-empty="dataEmpty"
-                    :settings="chartSettings"></ve-pie>
+                    :yearPayTime="yearPayTime"
+                     :colors="['#40DBBC', '#3A9DFF']"
+                    ></ve-pie>
                 </div>
               </div>
             </el-col>
@@ -48,8 +51,7 @@
               range-separator="至"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
-              @change="handleDateChange"
-              >
+              @change="handleDateChange">
             </el-date-picker>
             <div>
               <ve-histogram
@@ -71,8 +73,7 @@
   import img_home_order from '@/assets/images/home_order.png';
   import img_home_today_amount from '@/assets/images/home_today_amount.png';
   import img_home_yesterday_amount from '@/assets/images/home_yesterday_amount.png';
-
-   import {getPayAndRevenue} from '@/api/home';
+  import {getPayAndRevenue,getYearPicRate,getPayCategoryRate} from '@/api/home';
 
   export default {
     name: 'home',
@@ -94,6 +95,7 @@
         img_home_order,
         img_home_today_amount,
         img_home_yesterday_amount
+
       }
     },
     created(){
@@ -112,8 +114,12 @@
         const end = new Date();
         end.setTime(start.getTime() + 1000 * 60 * 60 * 24 * 30);
         this.orderCountDate=[start,end];
+        this.yearPic=2021;
+        this.yearPayTime=2021;
+
       },
       getData(){
+
         setTimeout(() => {
           this.chartData = {
             columns: ['date', 'pay','revenue'],
@@ -130,12 +136,41 @@
               }
             }
           });
+
           this.dataEmpty = false;
           this.loading = false
-        }, 1000)
+        }, 1000);
+          /** 第一个饼状图 **/
+          this.payChartData = {
+            columns: ['type', 'money'],
+            rows: []
+          };
+         /** 第一个饼状图 **/
+         getYearPicRate(this.yearPic).then(response => {
+            for(let i=0;i<response.data.length;i++){
+              let item=response.data[i];
+              this.payChartData.rows.push(item);
+            }
+         });
+          /** 第二个饼状图 **/
+          this.payCategoryChartData = {
+            columns: ['typeName', 'money'],
+            rows: []
+          };
+         /** 第一个饼状图 **/
+         getPayCategoryRate(this.yearPayTime).then(response => {
+            for(let i=0;i<response.data.length;i++){
+              let item=response.data[i];
+              this.payCategoryChartData.rows.push(item);
+            }
+         });
       }
     }
   }
+
+
+
+
 </script>
 
 <style scoped>
@@ -160,7 +195,8 @@
     border: 1px solid #DCDFE6;
   }
   .statistics-layout {
-    margin-top: 20px;
+   width: 100%;
+    margin-top: 40px;
     border: 1px solid #DCDFE6;
   }
 </style>
