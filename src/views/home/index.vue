@@ -7,7 +7,7 @@
             <div class="layout-title">后台项目</div>
             <div>
                <el-select v-model="yearPic"
-                      placeholder="请选择类型"   @change="handleDateChange">
+                      placeholder="请选择类型"   @change="selectData">
                <el-option
                   v-for="item in selectPayLists"
                   :key="item"
@@ -101,6 +101,11 @@
           rows: [],
           tooltipShow: true
         },
+        payChartData:{
+         columns: [],
+          rows: [],
+          tooltipShow: true
+        },
         loading: false,
         dataEmpty: false,
         selectPayLists: getYearData().then(response => {
@@ -130,7 +135,6 @@
 
       },
       getData(){
-
         setTimeout(() => {
           this.chartData = {
             columns: ['date', 'pay','revenue'],
@@ -157,7 +161,7 @@
             columns: ['typeName', 'money'],
             rows: []
           };
-         /** 第一个饼状图 **/
+         /** 第二个饼状图 **/
          getPayCategoryRate(this.yearPayTime).then(response => {
             for(let i=0;i<response.data.length;i++){
               let item=response.data[i];
@@ -166,20 +170,20 @@
          });
       },
       selectData(){
-        /** 第一个饼状图 **/
-          this.payChartData = {
-              columns: ['type', 'money'],
-              rows: []
-          };
+       setTimeout(() => {
+            /** 第一个饼状图 **/
+           this.payChartData = {
+               columns: ['type', 'money'],
+               rows: []
+           };
           /** 第一个饼状图 **/
           getYearPicRate(this.yearPic).then(response => {
             for(let i=0;i<response.data.length;i++){
               let item=response.data[i];
               this.payChartData.rows.push(item);
-              console.log("來了"+item);
             }
-         },
-         );
+          });
+       }, 1000);
       }
     }
   }
