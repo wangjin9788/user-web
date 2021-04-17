@@ -5,8 +5,8 @@
         <el-col :span="10" style="padding-right: 40px">
           <div class="out-border">
             <div class="layout-title">后台项目</div>
-            <div>
-               <el-select v-model="yearPic"
+            <div style="padding: 10px;border-left:1px solid #DCDFE6">
+               <el-select v-model="yearPic"  style="float: right;z-index: 1"
                       placeholder="请选择类型"   @change="selectData">
                <el-option
                   v-for="item in selectPayLists"
