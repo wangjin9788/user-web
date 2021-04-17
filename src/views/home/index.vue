@@ -7,13 +7,12 @@
             <div class="layout-title">后台项目</div>
             <div>
                <el-select v-model="yearPic"
-                      placeholder="请选择类型" @change="selectData">
+                      placeholder="请选择类型"   @change="handleDateChange">
                <el-option
                   v-for="item in selectPayLists"
                   :key="item"
                   :label="item"
                   :value="item"
-                  :yearPic="item"
                   >
                 </el-option>
               </el-select>
@@ -126,8 +125,8 @@
         const end = new Date();
         end.setTime(start.getTime() + 1000 * 60 * 60 * 24 * 30);
         this.orderCountDate=[start,end];
-        this.yearPic=2021;
         this.yearPayTime=2021;
+        this.yearPic=2021;
 
       },
       getData(){
@@ -159,7 +158,6 @@
             rows: []
           };
          /** 第一个饼状图 **/
-
          getPayCategoryRate(this.yearPayTime).then(response => {
             for(let i=0;i<response.data.length;i++){
               let item=response.data[i];
@@ -169,20 +167,19 @@
       },
       selectData(){
         /** 第一个饼状图 **/
-          console.log("來了"+this.yearPic);
-                this.payChartData = {
-                  columns: ['type', 'money'],
-                  rows: []
-                };
-               /** 第一个饼状图 **/
-               getYearPicRate(this.yearPic).then(response => {
-                  for(let i=0;i<response.data.length;i++){
-
-                    let item=response.data[i];
-                    this.payChartData.rows.push(item);
-                     console.log("來了"+item);
-                  }
-               });
+          this.payChartData = {
+              columns: ['type', 'money'],
+              rows: []
+          };
+          /** 第一个饼状图 **/
+          getYearPicRate(this.yearPic).then(response => {
+            for(let i=0;i<response.data.length;i++){
+              let item=response.data[i];
+              this.payChartData.rows.push(item);
+              console.log("來了"+item);
+            }
+         },
+         );
       }
     }
   }
