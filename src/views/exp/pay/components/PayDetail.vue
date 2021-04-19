@@ -17,6 +17,10 @@
       <el-form-item label="金额：" prop="pay">
         <el-input v-model.trim="pay.pay" ></el-input>
       </el-form-item>
+      <el-form-item label="分类图标：">
+              <single-upload v-model="pay.icon"></single-upload>
+      </el-form-item>
+
       <el-form-item>
         <el-button type="primary" @click="onSubmit('payFrom')">提交</el-button>
         <el-button v-if="!isEdit" @click="resetForm('payFrom')">重置</el-button>
@@ -27,13 +31,15 @@
 
 <script>
   import {fetchList, createPay, getCategory,updatePay,getPay} from '@/api/pay';
-
+  import SingleUpload from '@/components/Upload/singleUpload';
   const defaultPay = {
-    prcid: 0,
-    money: 0.0
+    prcid: '',
+    money: 0.0,
+    icon: ''
   };
   export default {
     name: "PayDetail",
+    components: {SingleUpload},
     props: {
       isEdit: {
         type: Boolean,
