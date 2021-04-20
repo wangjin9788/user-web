@@ -31,7 +31,7 @@
       <span>数据列表</span>
       <el-button
               class="btn-add"
-              @click="handleAddMenu()"
+              @click="handleAddPatter()"
               size="mini">
               添加
             </el-button>
@@ -42,16 +42,10 @@
                 style="width: 100%;"
                 v-loading="listLoading" border>
         <el-table-column label="编号" width="100" align="center">
-          <template slot-scope="scope">{{scope.row.epid}}</template>
+          <template slot-scope="scope">{{scope.row.fpId}}</template>
         </el-table-column>
-        <el-table-column label="开销类型" align="center">
-          <template slot-scope="scope">{{scope.row.typeName}}</template>
-        </el-table-column>
-        <el-table-column label="金额" align="center">
-          <template slot-scope="scope">{{scope.row.pay}}</template>
-        </el-table-column>
-        <el-table-column label="时间"  width="100" align="center">
-          <template slot-scope="scope">{{scope.row.createTime}}</template>
+        <el-table-column label="模式" align="center">
+          <template slot-scope="scope">{{scope.row.material}}</template>
         </el-table-column>
         <el-table-column label="操作" width="160" align="center">
           <template slot-scope="scope">
@@ -85,7 +79,7 @@
   </div>
 </template>
 <script>
-  import {fetchList,createPay,deletePay} from '@/api/pay';
+  import {fetchList,createPattern,deletePattern} from '@/api/pattern';
   import {formatDate} from '@/utils/date';
 
   const defaultListQuery = {
@@ -93,16 +87,8 @@
     pageSize: 5,
     selectDay:''
   };
-  const defaultRole = {
-    id: null,
-    name: null,
-    description: null,
-    adminCount: 0,
-    status: 1
-  };
   export default {
 
-    name: 'roleList',
     data() {
       return {
         listQuery: Object.assign({}, defaultListQuery),
@@ -110,7 +96,6 @@
         total: null,
         listLoading: false,
         dialogVisible: false,
-        role: Object.assign({}, defaultRole),
         isEdit: false,
 
       }
@@ -119,15 +104,6 @@
       this.getList();
     },
 
-    filters: {
-      formatDateTime(time) {
-        if (time == null || time === '') {
-          return 'N/A';
-        }
-        let date = new Date(time);
-        return formatDate(date, 'yyyy-MM-dd')
-      }
-    },
     methods: {
 
       handleResetSearch() {
@@ -146,8 +122,8 @@
         this.listQuery.pageNum = val;
         this.getList();
       },
-       handleAddMenu() {
-              this.$router.push('/exp/addPay');
+       handleAddPatter() {
+              this.$router.push('/fer/addPatter');
        },
 
       handleDelete(index, row) {
@@ -157,7 +133,7 @@
           type: 'warning'
         }).then(() => {
            console.log();
-          deletePay(row.epid).then(response => {
+          deletePattern(row.fpId).then(response => {
             this.$message({
               type: 'success',
               message: '删除成功!'
@@ -167,7 +143,7 @@
         });
       },
       handleUpdate(index, row) {
-          this.$router.push({path:'/exp/updatePay',query:{id:row.epid}});
+          this.$router.push({path:'/fer/updatePatter',query:{id:row.fpId}});
       },
       getList() {
         this.listLoading = true;
@@ -178,7 +154,7 @@
         var dayn = now.getDate();
         this.selectDay = yearn+"-"+monthn+"-"+dayn;
         this.handleResetSearch();
-        fetchList(this.listQuery).then(response => {
+        fetchList().then(response => {
           this.listLoading = false;
           this.list = response.data;
           this.total = response.data.total;
