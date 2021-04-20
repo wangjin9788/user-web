@@ -28,7 +28,10 @@
             </el-form-item>
 
             <el-form-item label="发酵堆图片：">
-                <single-upload v-model="fermentation.img"></single-upload>
+             <template slot-scope="scope">
+                     <single-upload v-model="fermentation.img"></single-upload>
+               </template>
+
             </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit('fermentationFrom')">提交</el-button>
@@ -67,8 +70,8 @@
     },
     created() {
       if (this.isEdit) {
-        getFermentation(this.$route.query.id).then(response => {
-          this.patter = response.data;
+        getFermentationInfo(this.$route.query.id).then(response => {
+          this.fermentation = response.data;
         });
       } else {
         this.fermentation = Object.assign({}, defaultFermentation);

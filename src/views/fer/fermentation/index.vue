@@ -55,12 +55,20 @@
          <img style="height:80px" :src="scope.row.img">
        </template>
         </el-table-column>
-        <el-table-column label="发酵状态" align="center">
-          <template slot-scope="scope">{{scope.row.status}}</template>
-        </el-table-column>
+
         <el-table-column label="评价" align="center">
           <template slot-scope="scope">{{scope.row.evaluate}}</template>
         </el-table-column>
+          <el-table-column label="发酵状态" width="100" align="center">
+            <template slot-scope="scope">
+              <el-switch
+                @change="handleHiddenChange(scope.$index, scope.row)"
+                :active-value="1"
+                :inactive-value="0"
+                v-model="scope.row.status">
+              </el-switch>
+            </template>
+          </el-table-column>
         <el-table-column label="创建时间" align="center">
           <template slot-scope="scope">{{scope.row.createTime}}</template>
         </el-table-column>
@@ -162,6 +170,16 @@
       },
       handleUpdate(index, row) {
           this.$router.push({path:'/fer/updateFermentation',query:{id:row.fid}});
+      },
+      /** 修改状态，并将数据进行总结 **/
+      handleHiddenChange(index, row) {
+        updateHidden(row.id,{hidden:row.hidden}).then(response=>{
+          this.$message({
+            message: '修改成功',
+            type: 'success',
+            duration: 1000
+          });
+        });
       },
       getList() {
         this.listLoading = true;
