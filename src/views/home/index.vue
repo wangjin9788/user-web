@@ -4,9 +4,9 @@
       <el-row >
         <el-col :span="10" style="padding-right: 40px">
           <div class="out-border">
-            <div class="layout-title">后台项目</div>
+            <div class="layout-title">收入支出统计</div>
             <div style="padding: 10px;border-left:1px solid #DCDFE6">
-               <el-select v-model="yearPic"  style="float: right;z-index: 1"
+               <el-select v-model="yearPayTime"  style="float: right;z-index: 1"
                       placeholder="请选择类型"   @change="selectData">
                <el-option
                   v-for="item in selectPayLists"
@@ -24,21 +24,33 @@
                 :loading="loading"
                 :data-empty="dataEmpty"
                 :colors="['#40DBBC', '#3A9DFF']"
-                :yearPic="yearPic"
+                :yearPayTime="yearPayTime"
                ></ve-pie>
             </div>
           </div>
         </el-col >
           <el-col :span="10" style="padding-right: 40px">
               <div class="out-border">
-                <div class="layout-title">后台项目</div>
+                <div class="layout-title">支出品类统计</div>
+                 <div style="padding: 10px;border-left:1px solid #DCDFE6">
+                     <el-select v-model="yearPic"  style="float: right;z-index: 1"
+                            placeholder="请选择类型"   @change="selectCategoryData">
+                     <el-option
+                        v-for="item in selectCategoryLists"
+                        :key="item"
+                        :label="item"
+                        :value="item"
+                        >
+                      </el-option>
+                    </el-select>
+                   </div>
                  <div>
                   <ve-pie
                     :data="payCategoryChartData"
                     :legend-visible="true"
                     :loading="loading"
                     :data-empty="dataEmpty"
-                    :yearPayTime="yearPayTime"
+                    :yearPic="yearPic"
                      :colors="['#40DBBC', '#3A9DFF']"
                     ></ve-pie>
                 </div>
@@ -106,21 +118,32 @@
           rows: [],
           tooltipShow: true
         },
+        payCategoryChartData:{
+         columns: [],
+          rows: [],
+          tooltipShow: true
+        },
         loading: false,
         dataEmpty: false,
+
         selectPayLists: getYearData().then(response => {
-              this.selectPayLists = response.data;})
+              this.selectPayLists = response.data;}),
+        selectCategoryLists: getYearData().then(response => {
+               this.selectCategoryLists = response.data;})
       }
+
     },
     created(){
       this.initOrderCountDate();
       this.getData();
       this.selectData();
+      this.selectCategoryData();
     },
     methods:{
       handleDateChange(){
         this.getData();
         this.selectData();
+        this.selectCategoryData();
       },
       initOrderCountDate(){
         let start = new Date();
@@ -156,18 +179,7 @@
           this.loading = false
         }, 1000);
 
-          /** 第二个饼状图 **/
-          this.payCategoryChartData = {
-            columns: ['typeName', 'money'],
-            rows: []
-          };
-         /** 第二个饼状图 **/
-         getPayCategoryRate(this.yearPayTime).then(response => {
-            for(let i=0;i<response.data.length;i++){
-              let item=response.data[i];
-              this.payCategoryChartData.rows.push(item);
-            }
-         });
+
       },
       selectData(){
        setTimeout(() => {
@@ -177,11 +189,27 @@
                rows: []
            };
           /** 第一个饼状图 **/
-          getYearPicRate(this.yearPic).then(response => {
+          getYearPicRate(this.yearPayTime).then(response => {
             for(let i=0;i<response.data.length;i++){
               let item=response.data[i];
               this.payChartData.rows.push(item);
             }
+          });
+       }, 1000);
+      },
+      selectCategoryData(){
+       setTimeout(() => {
+           /** 第二个饼状图 **/
+           this.payCategoryChartData = {
+             columns: ['typeName', 'money'],
+             rows: []
+           };
+          /** 第二个饼状图 **/
+          getPayCategoryRate(this.yearPic).then(response => {
+             for(let i=0;i<response.data.length;i++){
+               let item=response.data[i];
+               this.payCategoryChartData.rows.push(item);
+             }
           });
        }, 1000);
       }

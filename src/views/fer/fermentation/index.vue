@@ -72,6 +72,16 @@
         <el-table-column label="创建时间" align="center">
           <template slot-scope="scope">{{scope.row.createTime}}</template>
         </el-table-column>
+        <el-table-column label="设置" width="120" align="center">
+                  <template slot-scope="scope">
+                    <el-button
+                      size="mini"
+                      type="text"
+                      :disabled="scope.row.level | disableNextLevel"
+                      @click="handleShowNextLevel(scope.$index, scope.row)">查看下级
+                    </el-button>
+                  </template>
+                </el-table-column>
         <el-table-column label="操作" width="160" align="center">
           <template slot-scope="scope">
             <el-row>
@@ -131,7 +141,9 @@
     },
 
     methods: {
-
+       handleShowNextLevel(index, row) {
+        this.$router.push({path: '/ums/menu', query: {parentId: row.id}})
+      },
       handleResetSearch() {
 
       },
@@ -184,7 +196,7 @@
       getList() {
         this.listLoading = true;
         this.handleResetSearch();
-        fetchList().then(response => {
+        fetchList(this.listQuery).then(response => {
           this.listLoading = false;
           this.list = response.data;
           this.total = response.data.total;

@@ -147,12 +147,7 @@
       },
       getList() {
         this.listLoading = true;
-         //获取当前时间
-        var now   = new Date();
-        var monthn = now.getMonth()+1;
-        var yearn  = now.getFullYear();
-        var dayn = now.getDate();
-        this.selectDay = yearn+"-"+monthn+"-"+dayn;
+
         this.handleResetSearch();
         fetchList().then(response => {
           this.listLoading = false;
