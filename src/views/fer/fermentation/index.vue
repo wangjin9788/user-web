@@ -142,7 +142,7 @@
 
     methods: {
        handleShowNextLevel(index, row) {
-        this.$router.push({path: '/ums/menu', query: {parentId: row.id}})
+        this.$router.push({path: '/fer/fermentation', query: {parentId: row.id}})
       },
       handleResetSearch() {
 
