@@ -52,7 +52,7 @@
         </el-table-column>
         <el-table-column label="图片" align="center">
          <template slot-scope="scope">
-         <img style="height:80px" :src="scope.row.img">
+         <img style="height:80px"  v-image-preview :src="scope.row.img">
        </template>
         </el-table-column>
 
