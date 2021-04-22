@@ -364,14 +364,28 @@ export const asyncRouterMap = [
         component: () => import('@/views/fer/fermentation/update'),
         meta: {title: '修改发酵信息'},
         hidden: true
-      }, {
+      },
+      {
         path: 'detail',
         name: 'detail',
         component: () => import('@/views/fer/fermentation/detail/index'),
-        meta: {title: '修改发酵信息'},
+        meta: {title: '发酵详情信息'},
         hidden: true
       },
-
+      {
+        path: 'addFermentationDetail',
+        name: 'addFermentationDetail',
+        component: () => import('@/views/fer/fermentation/detail/add'),
+        meta: {title: '添加发酵详情'},
+        hidden: true
+      },
+      {
+        path: 'updateFermentationDetail',
+        name: 'updateFermentationDetail',
+        component: () => import('@/views/fer/fermentation/detail/update'),
+        meta: {title: '修改发酵详情'},
+        hidden: true
+      },
       {
         path: 'patter',
         name: 'patter',

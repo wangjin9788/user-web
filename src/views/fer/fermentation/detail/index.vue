@@ -45,42 +45,31 @@
                 style="width: 100%;"
                 v-loading="listLoading" border>
         <el-table-column label="编号" width="100" align="center">
+          <template slot-scope="scope">{{scope.row.fdId}}</template>
+        </el-table-column>
+        <el-table-column label="发酵编号" align="center">
           <template slot-scope="scope">{{scope.row.fid}}</template>
         </el-table-column>
-        <el-table-column label="模型名称" align="center">
-          <template slot-scope="scope">{{scope.row.patternName}}</template>
+        <el-table-column label="检查时温度" align="center">
+          <template slot-scope="scope">{{scope.row.temperature}}</template>
         </el-table-column>
-        <el-table-column label="图片" align="center">
-          <template slot-scope="scope">
-            <img style="height:80px" :src="scope.row.img">
-          </template>
+        <el-table-column label="堆内温度" align="center">
+          <template slot-scope="scope">{{scope.row.heapTemperature}}</template>
         </el-table-column>
-
-        <el-table-column label="评价" align="center">
-          <template slot-scope="scope">{{scope.row.evaluate}}</template>
+        <el-table-column label="当前空气湿度" align="center">
+          <template slot-scope="scope">{{scope.row.humidity}}</template>
         </el-table-column>
-        <el-table-column label="发酵状态" width="100" align="center">
-          <template slot-scope="scope">
-            <el-switch
-              @change="handleHiddenChange(scope.$index, scope.row)"
-              :active-value="1"
-              :inactive-value="0"
-              v-model="scope.row.status">
-            </el-switch>
-          </template>
+        <el-table-column label="堆内湿度" align="center">
+          <template slot-scope="scope">{{scope.row.heapHumidity}}</template>
+        </el-table-column>
+        <el-table-column label="ph值" align="center">
+          <template slot-scope="scope">{{scope.row.ph}}</template>
+        </el-table-column>
+        <el-table-column label="原料重量" align="center">
+          <template slot-scope="scope">{{scope.row.weight}}</template>
         </el-table-column>
         <el-table-column label="创建时间" align="center">
           <template slot-scope="scope">{{scope.row.createTime}}</template>
-        </el-table-column>
-        <el-table-column label="设置" width="120" align="center">
-          <template slot-scope="scope">
-            <el-button
-              size="mini"
-              type="text"
-              :disabled="scope.row.level | disableNextLevel"
-              @click="handleShowNextLevel(scope.$index, scope.row)">查看下级
-            </el-button>
-          </template>
         </el-table-column>
         <el-table-column label="操作" width="160" align="center">
           <template slot-scope="scope">
@@ -114,7 +103,7 @@
   </div>
 </template>
 <script>
-import {fetchList,deleteFermentation} from '@/api/fermentation';
+import {fetchList,createFermentationDetail} from '@/api/fermentationDetail';
 import {formatDate} from '@/utils/date';
 
 const defaultListQuery = {
@@ -162,7 +151,7 @@ export default {
       this.getList();
     },
     handleAddFermentation() {
-      this.$router.push('/fer/addFermentation');
+      this.$router.push('/fer/addFermentationDetail');
     },
 
     handleDelete(index, row) {
@@ -172,7 +161,7 @@ export default {
         type: 'warning'
       }).then(() => {
         console.log();
-        deleteFermentation(row.fid).then(response => {
+        deleteFermentation(row.fdId).then(response => {
           this.$message({
             type: 'success',
             message: '删除成功!'
@@ -182,7 +171,7 @@ export default {
       });
     },
     handleUpdate(index, row) {
-      this.$router.push({path:'/fer/updateFermentation',query:{id:row.fid}});
+      this.$router.push({path:'/fer/updateFermentationDetail',query:{id:row.fdId}});
     },
     /** 修改状态，并将数据进行总结 **/
     handleHiddenChange(index, row) {
@@ -197,7 +186,7 @@ export default {
     getList(id) {
       this.listLoading = true;
       this.handleResetSearch();
-      fetchList(this.id).then(response => {
+      fetchList(id).then(response => {
         this.listLoading = false;
         this.list = response.data;
         this.total = response.data.total;
