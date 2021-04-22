@@ -103,7 +103,7 @@
   </div>
 </template>
 <script>
-import {fetchList,createFermentationDetail} from '@/api/fermentationDetail';
+import {fetchList,deleteFermentationDetail} from '@/api/fermentationDetail';
 import {formatDate} from '@/utils/date';
 
 const defaultListQuery = {
@@ -155,13 +155,13 @@ export default {
     },
 
     handleDelete(index, row) {
-      this.$confirm('是否要删除该营收?', '提示', {
+      this.$confirm('是否要删除该详情?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         console.log();
-        deleteFermentation(row.fdId).then(response => {
+        deleteFermentationDetail(row.fdId).then(response => {
           this.$message({
             type: 'success',
             message: '删除成功!'
