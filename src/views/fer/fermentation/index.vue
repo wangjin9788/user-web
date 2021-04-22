@@ -72,16 +72,22 @@
         <el-table-column label="创建时间" align="center">
           <template slot-scope="scope">{{scope.row.createTime}}</template>
         </el-table-column>
-        <el-table-column label="设置" width="120" align="center">
-                  <template slot-scope="scope">
-                    <el-button
-                      size="mini"
-                      type="text"
-                      :disabled="scope.row.level | disableNextLevel"
-                      @click="handleShowNextLevel(scope.$index, scope.row)">查看下级
-                    </el-button>
-                  </template>
-                </el-table-column>
+        <el-table-column label="操作" width="160" align="center">
+          <template slot-scope="scope">
+            <el-row>
+              <el-button
+                size="mini"
+                type="text"
+                @click="handleDetail(scope.$index, scope.row)">详情
+
+              </el-button>
+              <el-button size="mini"
+                         type="text"
+                         @click="handleDelete(scope.$index, scope.row)">删除
+              </el-button>
+            </el-row>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" width="160" align="center">
           <template slot-scope="scope">
             <el-row>
@@ -182,6 +188,9 @@
       },
       handleUpdate(index, row) {
           this.$router.push({path:'/fer/updateFermentation',query:{id:row.fid}});
+      },
+      handleDetail(index, row) {
+          this.$router.push({path:'/fer/detail',query:{id:row.fid}});
       },
       /** 修改状态，并将数据进行总结 **/
       handleHiddenChange(index, row) {
