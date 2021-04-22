@@ -23,6 +23,12 @@ export function updateFermentation(data) {
     data: data
   })
 }
+export function updateSummary(id) {
+  return request({
+    url: '/fermentation/update-summary/' + id,
+    method: 'post'
+  })
+}
 
 export function getFermentationInfo(id) {
   return request({

@@ -62,7 +62,7 @@
           <el-table-column label="发酵状态" width="100" align="center">
             <template slot-scope="scope">
               <el-switch
-                @change="handleHiddenChange(scope.$index, scope.row)"
+                 @change="handleStatusChange(scope.$index, scope.row)"
                 :active-value="1"
                 :inactive-value="0"
                 v-model="scope.row.status">
@@ -72,7 +72,7 @@
         <el-table-column label="创建时间" align="center">
           <template slot-scope="scope">{{scope.row.createTime}}</template>
         </el-table-column>
-        <el-table-column label="操作" width="160" align="center">
+        <el-table-column label="信息" width="160" align="center">
           <template slot-scope="scope">
             <el-row>
               <el-button
@@ -83,7 +83,7 @@
               </el-button>
               <el-button size="mini"
                          type="text"
-                         @click="handleDelete(scope.$index, scope.row)">删除
+                         @click="handleDetail(scope.$index, scope.row)">总结信息（暂时不可用）
               </el-button>
             </el-row>
           </template>
@@ -120,7 +120,7 @@
   </div>
 </template>
 <script>
-  import {fetchList,deleteFermentation} from '@/api/fermentation';
+  import {fetchList,deleteFermentation,updateSummary} from '@/api/fermentation';
   import {formatDate} from '@/utils/date';
 
   const defaultListQuery = {
@@ -193,14 +193,15 @@
           this.$router.push({path:'/fer/detail',query:{id:row.fid}});
       },
       /** 修改状态，并将数据进行总结 **/
-      handleHiddenChange(index, row) {
-        updateHidden(row.id,{hidden:row.hidden}).then(response=>{
-          this.$message({
-            message: '修改成功',
-            type: 'success',
-            duration: 1000
+      handleStatusChange(index, row) {
+          updateSummary(row.fid).then(response => {
+            this.$message({
+              message: '修改成功',
+              type: 'success',
+              duration: 1000
+            });
+            row.status=1;
           });
-        });
       },
       getList() {
         this.listLoading = true;
