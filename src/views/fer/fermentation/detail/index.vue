@@ -51,22 +51,22 @@
           <template slot-scope="scope">{{scope.row.fid}}</template>
         </el-table-column>
         <el-table-column label="检查时温度" align="center">
-          <template slot-scope="scope">{{scope.row.temperature}}</template>
+          <template slot-scope="scope">{{scope.row.temperature}}℃</template>
         </el-table-column>
         <el-table-column label="堆内温度" align="center">
-          <template slot-scope="scope">{{scope.row.heapTemperature}}</template>
+          <template slot-scope="scope">{{scope.row.heapTemperature}}℃</template>
         </el-table-column>
         <el-table-column label="当前空气湿度" align="center">
-          <template slot-scope="scope">{{scope.row.humidity}}</template>
+          <template slot-scope="scope">{{scope.row.humidity}}%</template>
         </el-table-column>
         <el-table-column label="堆内湿度" align="center">
-          <template slot-scope="scope">{{scope.row.heapHumidity}}</template>
+          <template slot-scope="scope">{{scope.row.heapHumidity}}%</template>
         </el-table-column>
         <el-table-column label="ph值" align="center">
           <template slot-scope="scope">{{scope.row.ph}}</template>
         </el-table-column>
         <el-table-column label="原料重量" align="center">
-          <template slot-scope="scope">{{scope.row.weight}}</template>
+          <template slot-scope="scope">{{scope.row.weight}}kg</template>
         </el-table-column>
         <el-table-column label="创建时间" align="center">
           <template slot-scope="scope">{{scope.row.createTime}}</template>
@@ -108,9 +108,7 @@ import {formatDate} from '@/utils/date';
 
 const defaultListQuery = {
   pageNum: 1,
-  pageSize: 5,
-  year:'',
-  month:''
+  pageSize: 5
 };
 export default {
 
@@ -139,19 +137,21 @@ export default {
     },
     handleSearchList() {
       this.listQuery.pageNum = 1;
-      this.getList();
+      this.getList(this.id);
     },
     handleSizeChange(val) {
       this.listQuery.pageNum = 1;
       this.listQuery.pageSize = val;
-      this.getList();
+
+      this.getList(this.id);
     },
     handleCurrentChange(val) {
       this.listQuery.pageNum = val;
-      this.getList();
+      this.getList(this.id);
     },
     handleAddFermentation() {
-      this.$router.push('/fer/addFermentationDetail');
+      console.log(this.id);
+      this.$router.push({path:'/fer/addFermentationDetail',query:{id:this.id}});
     },
 
     handleDelete(index, row) {
@@ -166,7 +166,7 @@ export default {
             type: 'success',
             message: '删除成功!'
           });
-          this.getList();
+          this.getList(this.id);
         });
       });
     },
@@ -186,7 +186,7 @@ export default {
     getList(id) {
       this.listLoading = true;
       this.handleResetSearch();
-      fetchList(id).then(response => {
+      fetchList(id,this.listQuery).then(response => {
         this.listLoading = false;
         this.list = response.data;
         this.total = response.data.total;

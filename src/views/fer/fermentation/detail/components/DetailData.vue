@@ -1,88 +1,82 @@
 <template>
   <el-card class="form-container" shadow="never">
-    <el-form :model="fermentation"
-             ref="fermentationFrom"
+    <el-form :model="detail"
+             ref="detailFrom"
              label-width="150px">
-      <el-form-item v-show="isEdit"  label="编号：" prop="fermentation" isEdit>
-        <el-input v-model.trim="fermentation.fpId" ></el-input>
+      <el-form-item v-show="isEdit"  style="width : 60%" label="发酵详情编号：" prop="detail" isEdit>
+        <el-input v-model="detail.fdId" readonly="readonly"></el-input>
       </el-form-item>
-      <el-form-item label="模型：">
-        <el-select v-model="fermentation.fpId" placeholder="请选择模型">
-          <el-option
-            v-for="item in selectFermentationLists"
-            :key="item.fpId"
-            :label="item.material"
-            :value="item.fpId">
-          </el-option>
-        </el-select>
+      <el-form-item  style="width : 60%" label="发酵信息编号：" prop="detail" isEdit>
+        <el-input v-model="detail.fid" readonly="readonly"></el-input>
       </el-form-item>
-      <el-form-item label="评价：">
-        <el-select v-model="fermentation.eid" placeholder="请选择评价">
-          <el-option
-            v-for="item in selectEvaluateLists"
-            :key="item.eid"
-            :label="item.assess"
-            :value="item.eid">
-          </el-option>
-        </el-select>
+      <el-form-item  style="width : 60%" label="当前空气温度：" prop="detail" isEdit>
+        <el-input v-model="detail.temperature"></el-input>
       </el-form-item>
-
-      <el-form-item label="发酵堆图片：">
-        <template slot-scope="scope">
-          <single-upload v-model="fermentation.img"></single-upload>
-        </template>
-
+      <el-form-item  style="width : 60%" label="发酵堆温度：" prop="detail" isEdit>
+        <el-input v-model="detail.heapTemperature" ></el-input>
+      </el-form-item>
+      <el-form-item  style="width : 60%" label="当前空气湿度：" prop="detail" isEdit>
+        <el-input v-model="detail.humidity" ></el-input>
+      </el-form-item>
+      <el-form-item  style="width : 60%" label="堆内湿度：" prop="detail" isEdit>
+        <el-input v-model="detail.heapHumidity"></el-input>
+      </el-form-item>
+      <el-form-item  style="width : 60%" label="ph值：" prop="detail" isEdit>
+        <el-input v-model="detail.ph" ></el-input>
+      </el-form-item>
+      <el-form-item  style="width : 60%" label="原料重量：" prop="detail" isEdit>
+        <el-input v-model="detail.weight"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit('fermentationFrom')">提交</el-button>
-        <el-button v-if="!isEdit" @click="resetForm('fermentationFrom')">重置</el-button>
+        <el-button type="primary" @click="onSubmit('detailFrom')">提交</el-button>
+        <el-button v-if="!isEdit" @click="resetForm('detailFrom')">重置</el-button>
       </el-form-item>
     </el-form>
   </el-card>
 </template>
 
 <script>
-import {fetchList, createFermentation,updateFermentation,getFermentationInfo,getPattern,getPatternList,getEvaluateList} from '@/api/fermentation';
+import {fetchList, createFermentationDetail,updateFermentationDetail,getFermentationDetailInfo} from '@/api/fermentationDetail';
 import SingleUpload from '@/components/Upload/singleUpload';
-const defaultFermentation = {
+const defaultDetail = {
+  fdId: 0,
+  fid: 0,
   img: '',
   status: 0
 };
 export default {
-  name: "FermentationDetail",
+  name: "detail",
   components: {SingleUpload},
   props: {
     isEdit: {
       type: Boolean,
       default: false
     }
+
   },
   data() {
     return {
-      fermentation: Object.assign({}, defaultFermentation),
-      selectFermentationLists:getPatternList().then(response => {
-        this.selectFermentationLists = response.data;}),
-
-      selectEvaluateLists:getEvaluateList().then(response => {
-        this.selectEvaluateLists = response.data;})
+      detail: Object.assign({}, defaultDetail),
 
     }
   },
   created() {
-    console.log("来了");
+
     if (this.isEdit) {
-      getFermentationInfo(this.$route.query.id).then(response => {
-        this.fermentation = response.data;
+      getFermentationDetailInfo(this.$route.query.id).then(response => {
+        this.detail = response.data;
       });
     } else {
-      this.fermentation = Object.assign({}, defaultFermentation);
+      this.detail = Object.assign({}, defaultDetail);
+      this.detail.fid=this.$route.query.id;
     }
-    this.getSelectFermentationList();
+
+    this.getSelectDetailList(this.detail.fid);
   },
   methods: {
-    getSelectFermentationList() {
-      fetchList(0, {pageSize: 100, pageNum: 1}).then(response => {
-        this.selectFermentationList = response.data;
+    getSelectDetailList(fid) {
+      fetchList(fid, {pageSize: 100, pageNum: 1}).then(response => {
+        this.selectDetailList = response.data;
       });
 
     },
@@ -95,7 +89,7 @@ export default {
             type: 'warning'
           }).then(() => {
             if (this.isEdit) {
-              updateFermentation( this.fermentation).then(response => {
+              updateFermentationDetail( this.detail).then(response => {
                 this.$message({
                   message: '修改成功',
                   type: 'success',
@@ -104,7 +98,7 @@ export default {
                 this.$router.back();
               });
             } else {
-              createFermentation(this.fermentation).then(response => {
+              createFermentationDetail(this.detail).then(response => {
                 this.$refs[formName].resetFields();
                 this.resetForm(formName);
                 this.$message({
@@ -128,9 +122,10 @@ export default {
       });
     },
     resetForm(formName) {
+      console.log("来了");
       this.$refs[formName].resetFields();
-      this.fermentation = Object.assign({}, defaultFermentation);
-      this.getSelectFermentationList();
+      this.detail = Object.assign({}, defaultDetail);
+      this.getSelectDetailList(this.detail.fid);
     },
   }
 }

@@ -1,15 +1,16 @@
 import request from '@/utils/request'
 
-export function fetchList(id) {
+export function fetchList(id,params) {
   return request({
     url: '/fermentation-detail/list/' + id,
-    method: 'get'
+    method: 'get',
+    params: params
   })
 }
 
 export function createFermentationDetail(data) {
   return request({
-    url: '/fermentation/create',
+    url: '/fermentation-detail/create',
     method: 'post',
     data: data
   })
