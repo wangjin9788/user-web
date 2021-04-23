@@ -42,10 +42,17 @@
                 style="width: 100%;"
                 v-loading="listLoading" border>
         <el-table-column label="编号" width="100" align="center">
-          <template slot-scope="scope">{{scope.row.fpId}}</template>
+          <template slot-scope="scope">{{scope.row.pid}}</template>
+        </el-table-column>
+
+        <el-table-column label="土样" align="center">
+          <template slot-scope="scope">{{scope.row.soil}}</template>
         </el-table-column>
         <el-table-column label="模式" align="center">
-          <template slot-scope="scope">{{scope.row.material}}</template>
+          <template slot-scope="scope">{{scope.row.evaluate}}</template>
+        </el-table-column>
+        <el-table-column label="创建时间" align="center">
+          <template slot-scope="scope">{{scope.row.createTime}}</template>
         </el-table-column>
         <el-table-column label="操作" width="160" align="center">
           <template slot-scope="scope">
@@ -79,8 +86,7 @@
   </div>
 </template>
 <script>
-  import {fetchList,createPattern,deletePattern} from '@/api/pattern';
-  import {formatDate} from '@/utils/date';
+  import {fetchList,deletePattern} from '@/api/breedPattern';
 
   const defaultListQuery = {
     pageNum: 1,
@@ -123,17 +129,17 @@
         this.getList();
       },
        handleAddPatter() {
-              this.$router.push('/fer/addPatter');
+              this.$router.push('/breed/addPatter');
        },
 
       handleDelete(index, row) {
-        this.$confirm('是否要删除该营收?', '提示', {
+        this.$confirm('是否要删除该模式?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
            console.log();
-          deletePattern(row.fpId).then(response => {
+          deletePattern(row.pid).then(response => {
             this.$message({
               type: 'success',
               message: '删除成功!'
@@ -143,7 +149,7 @@
         });
       },
       handleUpdate(index, row) {
-          this.$router.push({path:'/fer/updatePatter',query:{id:row.fpId}});
+          this.$router.push({path:'/breed/updatePatter',query:{id:row.pid}});
       },
       getList() {
         this.listLoading = true;

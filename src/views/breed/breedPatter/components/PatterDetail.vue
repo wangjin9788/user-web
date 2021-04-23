@@ -3,14 +3,15 @@
     <el-form :model="patter"
                ref="patterFrom"
                label-width="150px">
-      <el-form-item v-show="isEdit"  label="编号：" prop="patter" isEdit>
-        <el-input v-model.trim="patter.fpId" ></el-input>
+      <el-form-item v-show="false"  label="编号：" prop="patter" isEdit>
+        <el-input v-model.trim="patter.pid" ></el-input>
       </el-form-item>
       <el-form-item label="模型：" prop="patter">
-        <el-input v-model.trim="patter.material" ></el-input>
+        <el-input v-model.trim="patter.evaluate" ></el-input>
       </el-form-item>
-
-
+      <el-form-item label="土样：" prop="patter">
+        <el-input v-model.trim="patter.soil" ></el-input>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit('patterFrom')">提交</el-button>
         <el-button v-if="!isEdit" @click="resetForm('patterFrom')">重置</el-button>
@@ -20,14 +21,13 @@
 </template>
 
 <script>
-  import {fetchList, createPattern,updatePattern,getPattern} from '@/api/pattern';
-  import SingleUpload from '@/components/Upload/singleUpload';
+  import {fetchList, createPattern,updatePattern,getPattern} from '@/api/breedPattern';
   const defaultPatter = {
     fpId: ''
   };
   export default {
     name: "PatterDetail",
-    components: {SingleUpload},
+
     props: {
       isEdit: {
         type: Boolean,
