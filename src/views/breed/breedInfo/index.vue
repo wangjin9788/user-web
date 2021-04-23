@@ -183,14 +183,14 @@ export default {
       });
     },
     handleUpdate(index, row) {
-      this.$router.push({path: '/breed/updateBreed', query: {id: row.fid}});
+      this.$router.push({path: '/breed/updateBreed', query: {id: row.bid}});
     },
     handleDetail(index, row) {
-      this.$router.push({path: '/breed/detail', query: {id: row.fid}});
+      this.$router.push({path: '/breed/detail', query: {id: row.bid}});
     },
     /** 修改状态，并将数据进行总结 **/
     handleStatusChange(index, row) {
-      updateSummary(row.fid).then(response => {
+      updateSummary(row.bid).then(response => {
         this.$message({
           message: '修改成功',
           type: 'success',

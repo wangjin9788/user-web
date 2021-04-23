@@ -43,3 +43,9 @@ export function deleteBreed(id) {
     method: 'post'
   })
 }
+export function getPatterList() {
+  return request({
+    url: '/breed-pattern/list',
+    method: 'get',
+  })
+}
