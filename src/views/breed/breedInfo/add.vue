@@ -1,11 +1,11 @@
 <template> 
-  <fermentation-detail :is-edit='false'></fermentation-detail>
+  <breed-detail :is-edit='false'></breed-detail>
 </template>
 <script>
-  import FermentationDetail from './components/FermentationDetail'
+  import BreedDetail from './components/BreedDetail'
   export default {
-    name: 'addFermentation',
-    components: { FermentationDetail }
+    name: 'addBreed',
+    components: { BreedDetail }
   }
 </script>
 <style>

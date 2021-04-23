@@ -425,19 +425,19 @@ export const asyncRouterMap = [
         path: 'addBreed',
         name: 'addBreed',
         component: () => import('@/views/breed/breedInfo/add'),
-        meta: {title: '添加发酵信息'},
+        meta: {title: '添加养殖信息'},
         hidden: true
       },
       {
         path: 'updateBreed',
         name: 'updateBreed',
         component: () => import('@/views/breed/breedInfo/update'),
-        meta: {title: '修改发酵信息'},
+        meta: {title: '修改养殖信息'},
         hidden: true
       },
       {
-        path: 'detail',
-        name: 'detail',
+        path: 'breedDetail',
+        name: 'breedDetail',
         component: () => import('@/views/breed/breedInfo/detail/index'),
         meta: {title: '养殖详情信息'},
         hidden: true
@@ -446,14 +446,14 @@ export const asyncRouterMap = [
         path: 'addBreedDetail',
         name: 'addBreedDetail',
         component: () => import('@/views/breed/breedInfo/detail/add'),
-        meta: {title: '添加发酵详情'},
+        meta: {title: '添加养殖详情'},
         hidden: true
       },
       {
-        path: 'updateFermentationDetail',
-        name: 'updateFermentationDetail',
+        path: 'updateBreedDetail',
+        name: 'updateBreedDetail',
         component: () => import('@/views/breed/breedInfo/detail/update'),
-        meta: {title: '修改发酵详情'},
+        meta: {title: '修改养殖详情'},
         hidden: true
       },
       {
@@ -463,15 +463,15 @@ export const asyncRouterMap = [
         meta: {title: '养殖模式'},
       },
       {
-        path: 'addPatter',
-        name: 'addPatter',
+        path: 'addBreedPatter',
+        name: 'addBreedPatter',
         component: () => import('@/views/breed/breedPatter/add'),
         meta: {title: '添加模式'},
         hidden: true
       },
       {
-        path: 'updatePatter',
-        name: 'updatePatter',
+        path: 'updateBreedPatter',
+        name: 'updateBreedPatter',
         component: () => import('@/views/breed/breedPatter/update'),
         meta: {title: '修改模式'},
         hidden: true

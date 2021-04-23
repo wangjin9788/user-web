@@ -4,7 +4,7 @@
 <script>
   import PatterDetail from './components/PatterDetail'
   export default {
-    name: 'addPatter',
+    name: 'addBreedPatter',
     components: { PatterDetail }
   }
 </script>

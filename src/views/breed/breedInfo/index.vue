@@ -31,7 +31,7 @@
       <span>数据列表</span>
       <el-button
         class="btn-add"
-        @click="handleAddFermentation()"
+        @click="handleAddBreed()"
         size="mini">
         添加
       </el-button>
@@ -122,7 +122,7 @@
   </div>
 </template>
 <script>
-import {fetchList, deleteFermentation, updateSummary} from '@/api/breedInfo';
+import {fetchList, deleteBreed, updateSummary} from '@/api/breedInfo';
 
 const defaultListQuery = {
   pageNum: 1,
@@ -146,9 +146,6 @@ export default {
   },
 
   methods: {
-    handleShowNextLevel(index, row) {
-      this.$router.push({path: '/bree/fermentation', query: {parentId: row.id}})
-    },
     handleResetSearch() {
 
     },
@@ -165,8 +162,8 @@ export default {
       this.listQuery.pageNum = val;
       this.getList();
     },
-    handleAddFermentation() {
-      this.$router.push('/bree/addFermentation');
+    handleAddBreed() {
+      this.$router.push('/breed/addBreed');
     },
 
     handleDelete(index, row) {
@@ -176,7 +173,7 @@ export default {
         type: 'warning'
       }).then(() => {
         console.log();
-        deleteFermentation(row.fid).then(response => {
+        deleteBreed(row.fid).then(response => {
           this.$message({
             type: 'success',
             message: '删除成功!'
@@ -186,10 +183,10 @@ export default {
       });
     },
     handleUpdate(index, row) {
-      this.$router.push({path: '/bree/updateFermentation', query: {id: row.fid}});
+      this.$router.push({path: '/breed/updateBreed', query: {id: row.fid}});
     },
     handleDetail(index, row) {
-      this.$router.push({path: '/bree/detail', query: {id: row.fid}});
+      this.$router.push({path: '/breed/detail', query: {id: row.fid}});
     },
     /** 修改状态，并将数据进行总结 **/
     handleStatusChange(index, row) {

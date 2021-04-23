@@ -129,7 +129,7 @@
         this.getList();
       },
        handleAddPatter() {
-              this.$router.push('/breed/addPatter');
+              this.$router.push('/breed/addBreedPatter');
        },
 
       handleDelete(index, row) {
@@ -149,7 +149,7 @@
         });
       },
       handleUpdate(index, row) {
-          this.$router.push({path:'/breed/updatePatter',query:{id:row.pid}});
+          this.$router.push({path:'/breed/updateBreedPatter',query:{id:row.pid}});
       },
       getList() {
         this.listLoading = true;
