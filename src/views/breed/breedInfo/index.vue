@@ -19,19 +19,22 @@
         </el-button>
       </div>
       <div style="margin-top: 15px">
-        <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
-          <el-form-item label="输入搜索：">
-           <el-date-picker v-model="listQuery.selectDay" type="date" placeholder="选择日" @change="handleResetSearch" value-format="yyyy-MM-dd"></el-date-picker>
-          </el-form-item>
-        </el-form>
-      </div>
+             <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
+               <el-form-item label="年：">
+                 <el-input v-model="listQuery.year" class="input-width" placeholder="年份" clearable></el-input>
+               </el-form-item>
+               <el-form-item label="月：">
+                 <el-input v-model="listQuery.month" class="input-width" placeholder="月份" clearable></el-input>
+               </el-form-item>
+             </el-form>
+           </div>
     </el-card>
     <el-card class="operate-container" shadow="never">
       <i class="el-icon-tickets"></i>
       <span>数据列表</span>
       <el-button
               class="btn-add"
-              @click="handleAddPatter()"
+              @click="handleAddFermentation()"
               size="mini">
               添加
             </el-button>
@@ -42,10 +45,48 @@
                 style="width: 100%;"
                 v-loading="listLoading" border>
         <el-table-column label="编号" width="100" align="center">
-          <template slot-scope="scope">{{scope.row.fpId}}</template>
+          <template slot-scope="scope">{{scope.row.fid}}</template>
         </el-table-column>
-        <el-table-column label="模式" align="center">
-          <template slot-scope="scope">{{scope.row.material}}</template>
+        <el-table-column label="模型名称" align="center">
+          <template slot-scope="scope">{{scope.row.patternName}}</template>
+        </el-table-column>
+        <el-table-column label="图片" align="center">
+         <template slot-scope="scope">
+         <img style="height:80px"  v-image-preview :src="scope.row.img">
+       </template>
+        </el-table-column>
+
+        <el-table-column label="评价" align="center">
+          <template slot-scope="scope">{{scope.row.evaluate}}</template>
+        </el-table-column>
+          <el-table-column label="发酵状态" width="100" align="center">
+            <template slot-scope="scope">
+              <el-switch
+                 @change="handleStatusChange(scope.$index, scope.row)"
+                :active-value="1"
+                :inactive-value="0"
+                v-model="scope.row.status">
+              </el-switch>
+            </template>
+          </el-table-column>
+        <el-table-column label="创建时间" align="center">
+          <template slot-scope="scope">{{scope.row.createTime}}</template>
+        </el-table-column>
+        <el-table-column label="信息" width="160" align="center">
+          <template slot-scope="scope">
+            <el-row>
+              <el-button
+                size="mini"
+                type="text"
+                @click="handleDetail(scope.$index, scope.row)">详情
+
+              </el-button>
+              <el-button size="mini"
+                         type="text"
+                         @click="handleDetail(scope.$index, scope.row)">总结信息（暂时不可用）
+              </el-button>
+            </el-row>
+          </template>
         </el-table-column>
         <el-table-column label="操作" width="160" align="center">
           <template slot-scope="scope">
@@ -79,13 +120,14 @@
   </div>
 </template>
 <script>
-  import {fetchList,createPattern,deletePattern} from '@/api/pattern';
+  import {fetchList,deleteFermentation,updateSummary} from '@/api/fermentation';
   import {formatDate} from '@/utils/date';
 
   const defaultListQuery = {
     pageNum: 1,
     pageSize: 5,
-    selectDay:''
+    year:'',
+    month:''
   };
   export default {
 
@@ -105,7 +147,9 @@
     },
 
     methods: {
-
+       handleShowNextLevel(index, row) {
+        this.$router.push({path: '/fer/fermentation', query: {parentId: row.id}})
+      },
       handleResetSearch() {
 
       },
@@ -122,8 +166,8 @@
         this.listQuery.pageNum = val;
         this.getList();
       },
-       handleAddPatter() {
-              this.$router.push('/fer/addPatter');
+       handleAddFermentation() {
+            this.$router.push('/fer/addFermentation');
        },
 
       handleDelete(index, row) {
@@ -133,7 +177,7 @@
           type: 'warning'
         }).then(() => {
            console.log();
-          deletePattern(row.fpId).then(response => {
+          deleteFermentation(row.fid).then(response => {
             this.$message({
               type: 'success',
               message: '删除成功!'
@@ -143,18 +187,26 @@
         });
       },
       handleUpdate(index, row) {
-          this.$router.push({path:'/fer/updatePatter',query:{id:row.fpId}});
+          this.$router.push({path:'/fer/updateFermentation',query:{id:row.fid}});
+      },
+      handleDetail(index, row) {
+          this.$router.push({path:'/fer/detail',query:{id:row.fid}});
+      },
+      /** 修改状态，并将数据进行总结 **/
+      handleStatusChange(index, row) {
+          updateSummary(row.fid).then(response => {
+            this.$message({
+              message: '修改成功',
+              type: 'success',
+              duration: 1000
+            });
+            row.status=1;
+          });
       },
       getList() {
         this.listLoading = true;
-         //获取当前时间
-        var now   = new Date();
-        var monthn = now.getMonth()+1;
-        var yearn  = now.getFullYear();
-        var dayn = now.getDate();
-        this.selectDay = yearn+"-"+monthn+"-"+dayn;
         this.handleResetSearch();
-        fetchList().then(response => {
+        fetchList(this.listQuery).then(response => {
           this.listLoading = false;
           this.list = response.data;
           this.total = response.data.total;

@@ -409,6 +409,76 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/breed',
+    component: Layout,
+    redirect: '/breed/breedInfo',
+    name: 'breed',
+    meta: {title: '养殖管理', icon: 'breed'},
+    children: [
+      {
+        path: 'breedInfo',
+        name: 'breedInfo',
+        component: () => import('@/views/breed/breedInfo/index'),
+        meta: {title: '养殖信息'}
+      },
+      {
+        path: 'addBreed',
+        name: 'addBreed',
+        component: () => import('@/views/breed/breedInfo/add'),
+        meta: {title: '添加发酵信息'},
+        hidden: true
+      },
+      {
+        path: 'updateBreed',
+        name: 'updateBreed',
+        component: () => import('@/views/breed/breedInfo/update'),
+        meta: {title: '修改发酵信息'},
+        hidden: true
+      },
+      {
+        path: 'detail',
+        name: 'detail',
+        component: () => import('@/views/breed/breedInfo/detail/index'),
+        meta: {title: '养殖详情信息'},
+        hidden: true
+      },
+      {
+        path: 'addBreedDetail',
+        name: 'addBreedDetail',
+        component: () => import('@/views/breed/breedInfo/detail/add'),
+        meta: {title: '添加发酵详情'},
+        hidden: true
+      },
+      {
+        path: 'updateFermentationDetail',
+        name: 'updateFermentationDetail',
+        component: () => import('@/views/breed/breedInfo/detail/update'),
+        meta: {title: '修改发酵详情'},
+        hidden: true
+      },
+      {
+        path: 'breedPatter',
+        name: 'breedPatter',
+        component: () => import('@/views/breed/breedPatter/index'),
+        meta: {title: '养殖模式'},
+      },
+      {
+        path: 'addPatter',
+        name: 'addPatter',
+        component: () => import('@/views/breed/breedPatter/add'),
+        meta: {title: '添加模式'},
+        hidden: true
+      },
+      {
+        path: 'updatePatter',
+        name: 'updatePatter',
+        component: () => import('@/views/breed/breedPatter/update'),
+        meta: {title: '修改模式'},
+        hidden: true
+      },
+    ]
+  },
+  {
     path: '/ums',
     component: Layout,
     redirect: '/ums/admin',

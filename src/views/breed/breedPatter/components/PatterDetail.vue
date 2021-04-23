@@ -1,6 +1,6 @@
 <template>
   <el-card class="form-container" shadow="never">
-   <el-form :model="patter"
+    <el-form :model="patter"
                ref="patterFrom"
                label-width="150px">
       <el-form-item v-show="isEdit"  label="编号：" prop="patter" isEdit>
@@ -9,9 +9,7 @@
       <el-form-item label="模型：" prop="patter">
         <el-input v-model.trim="patter.material" ></el-input>
       </el-form-item>
-      <el-form-item label="分类图标：">
-              <single-upload v-model="patter.icon"></single-upload>
-      </el-form-item>
+
 
       <el-form-item>
         <el-button type="primary" @click="onSubmit('patterFrom')">提交</el-button>
@@ -25,8 +23,7 @@
   import {fetchList, createPattern,updatePattern,getPattern} from '@/api/pattern';
   import SingleUpload from '@/components/Upload/singleUpload';
   const defaultPatter = {
-    fpId: '',
-    icon: ''
+    fpId: ''
   };
   export default {
     name: "PatterDetail",
