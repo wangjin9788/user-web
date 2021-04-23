@@ -4,7 +4,7 @@
 <script>
   import DetailData from './components/DetailData'
   export default {
-    name: 'addFermentationDetail',
+    name: 'addBreedDetail',
     components: { DetailData }
   }
 </script>

@@ -1,4 +1,4 @@
-<template> 
+<template xmlns="http://www.w3.org/1999/html"> 
   <div class="app-container">
     <el-card class="filter-container" shadow="never">
       <div>
@@ -45,28 +45,35 @@
                 style="width: 100%;"
                 v-loading="listLoading" border>
         <el-table-column label="编号" width="100" align="center">
-          <template slot-scope="scope">{{scope.row.fdId}}</template>
+          <template slot-scope="scope">{{scope.row.bdId}}</template>
         </el-table-column>
-        <el-table-column label="发酵编号" align="center">
-          <template slot-scope="scope">{{scope.row.fid}}</template>
+        <el-table-column label="养殖信息编号" align="center">
+          <template slot-scope="scope">{{scope.row.bid}}</template>
         </el-table-column>
-        <el-table-column label="检查时温度" align="center">
+        <el-table-column label="检查时天气温度" align="center">
           <template slot-scope="scope">{{scope.row.temperature}}℃</template>
         </el-table-column>
-        <el-table-column label="堆内温度" align="center">
-          <template slot-scope="scope">{{scope.row.heapTemperature}}℃</template>
+        <el-table-column label="土壤温度" align="center">
+          <template slot-scope="scope">{{scope.row.soilTemperature}}℃</template>
         </el-table-column>
-        <el-table-column label="当前空气湿度" align="center">
+        <el-table-column label="检查时空气湿度" align="center">
           <template slot-scope="scope">{{scope.row.humidity}}%</template>
         </el-table-column>
-        <el-table-column label="堆内湿度" align="center">
-          <template slot-scope="scope">{{scope.row.heapHumidity}}%</template>
+        <el-table-column label="土壤湿度" align="center">
+          <template slot-scope="scope">{{scope.row.soilHumidity}}%</template>
         </el-table-column>
-        <el-table-column label="ph值" align="center">
-          <template slot-scope="scope">{{scope.row.ph}}</template>
+        <el-table-column label="异常情况" align="center">
+            <template  slot-scope="scope">
+              <span v-if="scope.row.abnormal >0"> 异常</span>
+              <span v-else> 正常</span>
+              </template>
         </el-table-column>
-        <el-table-column label="原料重量" align="center">
-          <template slot-scope="scope">{{scope.row.weight}}kg</template>
+        <el-table-column label="异常说明" align="center">
+          <template  slot-scope="scope">{{scope.row.description}}
+          </template>
+        </el-table-column>
+        <el-table-column label="异常图片" align="center">
+          <template slot-scope="scope">{{scope.row.imgUrl}}</template>
         </el-table-column>
         <el-table-column label="创建时间" align="center">
           <template slot-scope="scope">{{scope.row.createTime}}</template>
@@ -103,8 +110,7 @@
   </div>
 </template>
 <script>
-import {fetchList,deleteFermentationDetail} from '@/api/fermentationDetail';
-import {formatDate} from '@/utils/date';
+import {fetchList,deleteBreedDetail} from '@/api/breedDetail';
 
 const defaultListQuery = {
   pageNum: 1,
@@ -129,9 +135,6 @@ export default {
   },
 
   methods: {
-    handleShowNextLevel(index, row) {
-      this.$router.push({path: '/fer/fermentationDetail', query: {parentId: row.id}})
-    },
     handleResetSearch() {
 
     },
@@ -161,7 +164,7 @@ export default {
         type: 'warning'
       }).then(() => {
         console.log();
-        deleteFermentationDetail(row.fdId).then(response => {
+        deleteBreedDetail(row.fdId).then(response => {
           this.$message({
             type: 'success',
             message: '删除成功!'

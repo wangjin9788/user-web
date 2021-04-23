@@ -186,7 +186,7 @@ export default {
       this.$router.push({path: '/breed/updateBreed', query: {id: row.bid}});
     },
     handleDetail(index, row) {
-      this.$router.push({path: '/breed/detail', query: {id: row.bid}});
+      this.$router.push({path: '/breed/breedDetail', query: {id: row.bid}});
     },
     /** 修改状态，并将数据进行总结 **/
     handleStatusChange(index, row) {
