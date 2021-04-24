@@ -80,8 +80,9 @@ export default {
         this.detail = response.data;
       });
     } else {
+
       this.detail = Object.assign({}, defaultDetail);
-      this.detail.bid=this.$route.query.id;
+      this.detail.bid=this.$route.query.bid;
     }
 
     this.getSelectDetailList(this.detail.bid);

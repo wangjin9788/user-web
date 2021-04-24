@@ -34,48 +34,41 @@
       <span>数据列表</span>
       <el-button
         class="btn-add"
-        @click="handleAddBreed()"
+        @click="handleAdd()"
         size="mini">
         添加
       </el-button>
     </el-card>
     <div class="table-container">
-      <el-table ref="revenueTable"
+      <el-table ref="treatment"
                 :data="list"
                 style="width: 100%;"
                 v-loading="listLoading" border>
         <el-table-column label="编号" width="100" align="center">
-          <template slot-scope="scope">{{ scope.row.bdId }}</template>
+          <template slot-scope="scope">{{ scope.row.btId }}</template>
         </el-table-column>
         <el-table-column label="养殖信息编号" align="center">
           <template slot-scope="scope">{{ scope.row.bid }}</template>
         </el-table-column>
-        <el-table-column label="检查时天气温度" align="center">
-          <template slot-scope="scope">{{ scope.row.temperature }}℃</template>
+        <el-table-column label="病理名称" align="center">
+          <template slot-scope="scope">{{ scope.row.illnessName }}</template>
         </el-table-column>
-        <el-table-column label="养殖土壤温度" align="center">
-          <template slot-scope="scope">{{ scope.row.soilTemperature }}℃</template>
-        </el-table-column>
-        <el-table-column label="检查时空气湿度" align="center">
-          <template slot-scope="scope">{{ scope.row.humidity }}%</template>
-        </el-table-column>
-        <el-table-column label="养殖土壤湿度" align="center">
-          <template slot-scope="scope">{{ scope.row.soilHumidity }}%</template>
-        </el-table-column>
-        <el-table-column label="异常情况" align="center">
+        <el-table-column label="病理图片" align="center">
           <template slot-scope="scope">
-            <span v-if="scope.row.abnormal >0"> 异常</span>
-            <span v-else> 正常</span>
+            <img style="height:80px" v-image-preview :src="scope.row.img">
           </template>
         </el-table-column>
-        <el-table-column label="异常说明" align="center">
-          <template slot-scope="scope">{{ scope.row.description }}
-          </template>
+        <el-table-column label="采用药物" align="center">
+          <template slot-scope="scope">{{ scope.row.medicine }}</template>
         </el-table-column>
-        <el-table-column label="异常图片" align="center">
-          <template slot-scope="scope">
-            <img style="height:80px" v-image-preview :src="scope.row.imgUrl">
-          </template>
+        <el-table-column label="治疗类型" align="center">
+          <template slot-scope="scope">{{ scope.row.type }}</template>
+        </el-table-column>
+        <el-table-column label="病理说明" align="center">
+          <template slot-scope="scope">{{ scope.row.illnessExplain }}</template>
+        </el-table-column>
+        <el-table-column label="治疗效果" align="center">
+          <template slot-scope="scope">{{ scope.row.assess }}</template>
         </el-table-column>
         <el-table-column label="创建时间" align="center">
           <template slot-scope="scope">{{ scope.row.createTime }}</template>
@@ -112,7 +105,7 @@
   </div>
 </template>
 <script>
-import {fetchList, deleteBreedDetail} from '@/api/breedDetail';
+import {fetchList, deleteBreedTreatment} from '@/api/breedTreatment';
 
 const defaultListQuery = {
   pageNum: 1,
@@ -154,8 +147,8 @@ export default {
       this.listQuery.pageNum = val;
       this.getList(this.id);
     },
-    handleAddBreed() {
-      this.$router.push({path: '/breed/addBreedDetail', query: {bid: this.id}});
+    handleAdd() {
+      this.$router.push({path: '/breed/addBreedTreatment', query: {bid: this.id}});
     },
 
     handleDelete(index, row) {
@@ -164,7 +157,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteBreedDetail(row.bdId).then(response => {
+        deleteBreedTreatment(row.btId).then(response => {
           this.$message({
             type: 'success',
             message: '删除成功!'
@@ -174,17 +167,8 @@ export default {
       });
     },
     handleUpdate(index, row) {
-      this.$router.push({path: '/breed/updateBreedDetail', query: {id: row.bdId,bid: this.id}});
-    },
-    /** 修改状态，并将数据进行总结 **/
-    handleHiddenChange(index, row) {
-      updateHidden(row.id, {hidden: row.hidden}).then(response => {
-        this.$message({
-          message: '修改成功',
-          type: 'success',
-          duration: 1000
-        });
-      });
+      console.log(row.btId);
+      this.$router.push({path: '/breed/updateBreedTreatment', query: {id: row.btId,bid: this.id}});
     },
     getList(id) {
 

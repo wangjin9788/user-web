@@ -81,11 +81,33 @@
               <el-button
                 size="mini"
                 type="text"
-                @click="handleDetail(scope.$index, scope.row)">详情
+                @click="handleDetail(scope.$index, scope.row)">日常数据
               </el-button>
               <el-button size="mini"
                          type="text"
-                         @click="handleDetail(scope.$index, scope.row)">总结信息（暂时不可用）
+                         @click="handleOperation(scope.$index, scope.row)">日常操作
+              </el-button>
+            </el-row>
+            <el-row>
+              <el-button
+                size="mini"
+                type="text"
+                @click="handleTreatment(scope.$index, scope.row)">治疗信息
+              </el-button>
+              <el-button size="mini"
+                         type="text"
+                         @click="handleDetail(scope.$index, scope.row)">生长检查信息
+              </el-button>
+            </el-row>
+            <el-row>
+              <el-button
+                size="mini"
+                type="text"
+                @click="handleDetail(scope.$index, scope.row)">评价信息
+              </el-button>
+              <el-button size="mini"
+                         type="text"
+                         @click="handleDetail(scope.$index, scope.row)">总结列表
               </el-button>
             </el-row>
           </template>
@@ -186,7 +208,13 @@ export default {
       this.$router.push({path: '/breed/updateBreed', query: {id: row.bid}});
     },
     handleDetail(index, row) {
-      this.$router.push({path: '/breed/breedDetail', query: {id: row.bid}});
+      this.$router.push({path: '/breed/breedDetail', query: {bid: row.bid}});
+    },
+    handleOperation(index, row) {
+      this.$router.push({path: '/breed/breedOperation', query: {bid: row.bid}});
+    },
+    handleTreatment(index, row) {
+      this.$router.push({path: '/breed/breedTreatment', query: {bid: row.bid}});
     },
     /** 修改状态，并将数据进行总结 **/
     handleStatusChange(index, row) {

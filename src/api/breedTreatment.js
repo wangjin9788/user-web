@@ -37,5 +37,10 @@ export function deleteBreedTreatment(id) {
     method: 'post'
   })
 }
-
+export function getEvaluateList() {
+  return request({
+    url: '/evaluate/list',
+    method: 'get',
+  })
+}
 
