@@ -263,6 +263,48 @@ export const asyncRouterMap = [
         meta: {title: '修改药物治疗信息'},
         hidden: true
       },
+      {
+        path: 'breedMeasure',
+        name: 'breedMeasure',
+        component: () => import('@/views/breed/breedInfo/measure/index'),
+        meta: {title: '养殖生长信息'},
+        hidden: true
+      },
+      {
+        path: 'addBreedMeasure',
+        name: 'addBreedMeasure',
+        component: () => import('@/views/breed/breedInfo/measure/add'),
+        meta: {title: '添加生长信息'},
+        hidden: true
+      },
+      {
+        path: 'updateBreedMeasure',
+        name: 'updateBreedMeasure',
+        component: () => import('@/views/breed/breedInfo/measure/update'),
+        meta: {title: '修改生长信息'},
+        hidden: true
+      },
+      {
+        path: 'breedEvaluate',
+        name: 'breedEvaluate',
+        component: () => import('@/views/breed/breedInfo/evaluate/index'),
+        meta: {title: '养殖评价信息'},
+        hidden: true
+      },
+      {
+        path: 'addBreedEvaluate',
+        name: 'addBreedEvaluate',
+        component: () => import('@/views/breed/breedInfo/evaluate/add'),
+        meta: {title: '添加评价信息'},
+        hidden: true
+      },
+      {
+        path: 'updateBreedEvaluate',
+        name: 'updateBreedEvaluate',
+        component: () => import('@/views/breed/breedInfo/evaluate/update'),
+        meta: {title: '修改评价信息'},
+        hidden: true
+      },
     ]
   },
   {

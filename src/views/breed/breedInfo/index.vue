@@ -96,14 +96,14 @@
               </el-button>
               <el-button size="mini"
                          type="text"
-                         @click="handleDetail(scope.$index, scope.row)">生长检查信息
+                         @click="handleMeasure(scope.$index, scope.row)">生长检查信息
               </el-button>
             </el-row>
             <el-row>
               <el-button
                 size="mini"
                 type="text"
-                @click="handleDetail(scope.$index, scope.row)">评价信息
+                @click="handleEvaluate(scope.$index, scope.row)">评价信息
               </el-button>
               <el-button size="mini"
                          type="text"
@@ -215,6 +215,12 @@ export default {
     },
     handleTreatment(index, row) {
       this.$router.push({path: '/breed/breedTreatment', query: {bid: row.bid}});
+    },
+    handleMeasure(index, row) {
+      this.$router.push({path: '/breed/breedMeasure', query: {bid: row.bid}});
+    },
+    handleEvaluate(index, row) {
+      this.$router.push({path: '/breed/breedEvaluate', query: {bid: row.bid}});
     },
     /** 修改状态，并将数据进行总结 **/
     handleStatusChange(index, row) {
