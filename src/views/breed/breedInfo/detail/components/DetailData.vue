@@ -3,29 +3,41 @@
     <el-form :model="detail"
              ref="detailFrom"
              label-width="150px">
-      <el-form-item v-show="isEdit"  style="width : 60%" label="发酵详情编号：" prop="detail" isEdit>
-        <el-input v-model="detail.fdId" readonly="readonly"></el-input>
+      <el-form-item v-show="isEdit"  style="width : 60%" label="养殖详情编号：" prop="detail" isEdit>
+        <el-input v-model="detail.bdId" readonly="readonly"></el-input>
       </el-form-item>
-      <el-form-item  style="width : 60%" label="发酵信息编号：" prop="detail" isEdit>
-        <el-input v-model="detail.fid" readonly="readonly"></el-input>
+      <el-form-item  style="width : 60%" label="养殖信息编号：" prop="detail" isEdit>
+        <el-input v-model="detail.bid" readonly="readonly"></el-input>
       </el-form-item>
       <el-form-item  style="width : 60%" label="当前空气温度：" prop="detail" isEdit>
         <el-input v-model="detail.temperature"></el-input>
       </el-form-item>
-      <el-form-item  style="width : 60%" label="发酵堆温度：" prop="detail" isEdit>
-        <el-input v-model="detail.heapTemperature" ></el-input>
+      <el-form-item  style="width : 60%" label="养殖箱土壤温度：" prop="detail" isEdit>
+        <el-input v-model="detail.soilTemperature" ></el-input>
       </el-form-item>
       <el-form-item  style="width : 60%" label="当前空气湿度：" prop="detail" isEdit>
         <el-input v-model="detail.humidity" ></el-input>
       </el-form-item>
-      <el-form-item  style="width : 60%" label="堆内湿度：" prop="detail" isEdit>
-        <el-input v-model="detail.heapHumidity"></el-input>
+      <el-form-item  style="width : 60%" label="养殖箱土壤湿度：" prop="detail" isEdit>
+        <el-input v-model="detail.soilHumidity"></el-input>
       </el-form-item>
-      <el-form-item  style="width : 60%" label="ph值：" prop="detail" isEdit>
-        <el-input v-model="detail.ph" ></el-input>
+      <el-form-item label="异常状态：">
+        <el-select v-model="detail.abnormal" placeholder="请选择状态">
+          <el-option
+            v-for="item in stateList"
+            :key="item.abnormal"
+            :label="item.assess"
+            :value="item.abnormal">
+          </el-option>
+        </el-select>
       </el-form-item>
-      <el-form-item  style="width : 60%" label="原料重量：" prop="detail" isEdit>
-        <el-input v-model="detail.weight"></el-input>
+      <el-form-item  style="width : 60%" label="异常说明：" prop="detail" isEdit>
+        <el-input v-model="detail.description"></el-input>
+      </el-form-item>
+      <el-form-item label="检查图片：">
+        <template slot-scope="scope">
+          <single-upload v-model="detail.imgUrl"></single-upload>
+        </template>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit('detailFrom')">提交</el-button>
@@ -36,13 +48,14 @@
 </template>
 
 <script>
-import {fetchList, createFermentationDetail,updateFermentationDetail,getFermentationDetailInfo} from '@/api/fermentationDetail';
+import {fetchList, createBreedDetail,updateBreedDetail,getBreedDetailInfo} from '@/api/breedDetail';
 import SingleUpload from '@/components/Upload/singleUpload';
 const defaultDetail = {
-  fdId: 0,
-  fid: 0,
+  bdId: 0,
+  bid: 0,
   img: '',
-  status: 0
+  status: 0,
+  abnormal:0
 };
 export default {
   name: "detail",
@@ -57,21 +70,21 @@ export default {
   data() {
     return {
       detail: Object.assign({}, defaultDetail),
-
+      stateList:[{abnormal:0,assess:'正常'},{abnormal:1,assess:'异常'}]
     }
   },
   created() {
 
     if (this.isEdit) {
-      getFermentationDetailInfo(this.$route.query.id).then(response => {
+      getBreedDetailInfo(this.$route.query.id).then(response => {
         this.detail = response.data;
       });
     } else {
       this.detail = Object.assign({}, defaultDetail);
-      this.detail.fid=this.$route.query.id;
+      this.detail.bid=this.$route.query.id;
     }
 
-    this.getSelectDetailList(this.detail.fid);
+    this.getSelectDetailList(this.detail.bid);
   },
   methods: {
     getSelectDetailList(fid) {
@@ -89,7 +102,7 @@ export default {
             type: 'warning'
           }).then(() => {
             if (this.isEdit) {
-              updateFermentationDetail( this.detail).then(response => {
+              updateBreedDetail( this.detail).then(response => {
                 this.$message({
                   message: '修改成功',
                   type: 'success',
@@ -98,7 +111,7 @@ export default {
                 this.$router.back();
               });
             } else {
-              createFermentationDetail(this.detail).then(response => {
+              createBreedDetail(this.detail).then(response => {
                 this.$refs[formName].resetFields();
                 this.resetForm(formName);
                 this.$message({
@@ -122,10 +135,9 @@ export default {
       });
     },
     resetForm(formName) {
-      console.log("来了");
       this.$refs[formName].resetFields();
       this.detail = Object.assign({}, defaultDetail);
-      this.getSelectDetailList(this.detail.fid);
+      this.getSelectDetailList(this.detail.bid);
     },
   }
 }

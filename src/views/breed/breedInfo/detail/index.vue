@@ -34,7 +34,7 @@
       <span>数据列表</span>
       <el-button
         class="btn-add"
-        @click="handleAddFermentation()"
+        @click="handleAddBreed()"
         size="mini">
         添加
       </el-button>
@@ -45,38 +45,40 @@
                 style="width: 100%;"
                 v-loading="listLoading" border>
         <el-table-column label="编号" width="100" align="center">
-          <template slot-scope="scope">{{scope.row.bdId}}</template>
+          <template slot-scope="scope">{{ scope.row.bdId }}</template>
         </el-table-column>
         <el-table-column label="养殖信息编号" align="center">
-          <template slot-scope="scope">{{scope.row.bid}}</template>
+          <template slot-scope="scope">{{ scope.row.bid }}</template>
         </el-table-column>
         <el-table-column label="检查时天气温度" align="center">
-          <template slot-scope="scope">{{scope.row.temperature}}℃</template>
+          <template slot-scope="scope">{{ scope.row.temperature }}℃</template>
         </el-table-column>
-        <el-table-column label="土壤温度" align="center">
-          <template slot-scope="scope">{{scope.row.soilTemperature}}℃</template>
+        <el-table-column label="养殖土壤温度" align="center">
+          <template slot-scope="scope">{{ scope.row.soilTemperature }}℃</template>
         </el-table-column>
         <el-table-column label="检查时空气湿度" align="center">
-          <template slot-scope="scope">{{scope.row.humidity}}%</template>
+          <template slot-scope="scope">{{ scope.row.humidity }}%</template>
         </el-table-column>
-        <el-table-column label="土壤湿度" align="center">
-          <template slot-scope="scope">{{scope.row.soilHumidity}}%</template>
+        <el-table-column label="养殖土壤湿度" align="center">
+          <template slot-scope="scope">{{ scope.row.soilHumidity }}%</template>
         </el-table-column>
         <el-table-column label="异常情况" align="center">
-            <template  slot-scope="scope">
-              <span v-if="scope.row.abnormal >0"> 异常</span>
-              <span v-else> 正常</span>
-              </template>
+          <template slot-scope="scope">
+            <span v-if="scope.row.abnormal >0"> 异常</span>
+            <span v-else> 正常</span>
+          </template>
         </el-table-column>
         <el-table-column label="异常说明" align="center">
-          <template  slot-scope="scope">{{scope.row.description}}
+          <template slot-scope="scope">{{ scope.row.description }}
           </template>
         </el-table-column>
         <el-table-column label="异常图片" align="center">
-          <template slot-scope="scope">{{scope.row.imgUrl}}</template>
+          <template slot-scope="scope">
+            <img style="height:80px" v-image-preview :src="scope.row.imgUrl">
+          </template>
         </el-table-column>
         <el-table-column label="创建时间" align="center">
-          <template slot-scope="scope">{{scope.row.createTime}}</template>
+          <template slot-scope="scope">{{ scope.row.createTime }}</template>
         </el-table-column>
         <el-table-column label="操作" width="160" align="center">
           <template slot-scope="scope">
@@ -110,7 +112,7 @@
   </div>
 </template>
 <script>
-import {fetchList,deleteBreedDetail} from '@/api/breedDetail';
+import {fetchList, deleteBreedDetail} from '@/api/breedDetail';
 
 const defaultListQuery = {
   pageNum: 1,
@@ -152,9 +154,8 @@ export default {
       this.listQuery.pageNum = val;
       this.getList(this.id);
     },
-    handleAddFermentation() {
-      console.log(this.id);
-      this.$router.push({path:'/fer/addFermentationDetail',query:{id:this.id}});
+    handleAddBreed() {
+      this.$router.push({path: '/breed/addBreedDetail', query: {id: this.id}});
     },
 
     handleDelete(index, row) {
@@ -163,8 +164,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        console.log();
-        deleteBreedDetail(row.fdId).then(response => {
+        deleteBreedDetail(row.bdId).then(response => {
           this.$message({
             type: 'success',
             message: '删除成功!'
@@ -174,11 +174,11 @@ export default {
       });
     },
     handleUpdate(index, row) {
-      this.$router.push({path:'/fer/updateFermentationDetail',query:{id:row.fdId}});
+      this.$router.push({path: '/breed/updateBreedDetail', query: {id: row.bid}});
     },
     /** 修改状态，并将数据进行总结 **/
     handleHiddenChange(index, row) {
-      updateHidden(row.id,{hidden:row.hidden}).then(response=>{
+      updateHidden(row.id, {hidden: row.hidden}).then(response => {
         this.$message({
           message: '修改成功',
           type: 'success',
@@ -187,9 +187,10 @@ export default {
       });
     },
     getList(id) {
+
       this.listLoading = true;
       this.handleResetSearch();
-      fetchList(id,this.listQuery).then(response => {
+      fetchList(id, this.listQuery).then(response => {
         this.listLoading = false;
         this.list = response.data;
         this.total = response.data.total;

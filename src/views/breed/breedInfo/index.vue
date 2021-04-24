@@ -62,7 +62,7 @@
         <el-table-column label="饲料（发酵）id" align="center">
           <template slot-scope="scope">{{ scope.row.feedIds }}</template>
         </el-table-column>
-        <el-table-column label="发酵状态" width="100" align="center">
+        <el-table-column label="养殖状态" width="100" align="center">
           <template slot-scope="scope">
             <el-switch
               @change="handleStatusChange(scope.$index, scope.row)"
