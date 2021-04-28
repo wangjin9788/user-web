@@ -15,9 +15,6 @@
       <el-form-item  style="width : 60%" label="孵化评价：" prop="evaluate" isEdit>
         <el-input v-model="evaluate.hatchEvaluate"></el-input>
       </el-form-item>
-      <el-form-item  style="width : 60%" label="养殖周期：" prop="evaluate" isEdit>
-        <el-input v-model="evaluate.cycle"></el-input>
-      </el-form-item>
       <el-form-item  style="width : 60%" label="出售价格：" prop="evaluate" isEdit>
         <el-input v-model="evaluate.price"></el-input>
       </el-form-item>

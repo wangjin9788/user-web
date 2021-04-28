@@ -107,7 +107,7 @@
               </el-button>
               <el-button size="mini"
                          type="text"
-                         @click="handleDetail(scope.$index, scope.row)">总结列表
+                         @click="handleSummary(scope.$index, scope.row)">总结列表
               </el-button>
             </el-row>
           </template>
@@ -221,6 +221,9 @@ export default {
     },
     handleEvaluate(index, row) {
       this.$router.push({path: '/breed/breedEvaluate', query: {bid: row.bid}});
+    },
+    handleSummary(index, row) {
+      this.$router.push({path: '/breed/summary', query: {bid: row.bid}});
     },
     /** 修改状态，并将数据进行总结 **/
     handleStatusChange(index, row) {
