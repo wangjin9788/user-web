@@ -38,6 +38,11 @@
             <span class="font-medium">饲料id: {{ this.list.feedIds }}</span>
           </div>
         </el-row>
+        <el-row :gutter="20">
+          <div class="un-handle-item">
+            <span class="font-medium">养殖周期: {{ this.list.cycle }}</span>
+          </div>
+        </el-row>
       </div>
     </div>
     <div class="un-handle-layout">
@@ -65,22 +70,37 @@
         </el-row>
       </div>
     </div>
-    <div class="un-handle-layout">
+    <div v-show="this.list.abnormal=='有异常'" class="un-handle-layout">
       <div class="layout-title">异常情况</div>
       <div class="un-handle-content">
         <el-row :gutter="20">
           <div class="un-handle-item">
-            <span class="font-medium">天气平均温度: {{ this.list.meanTemperature }}</span>
+            <span class="font-medium">是否有异常: {{ this.list.abnormal }}</span>
+          </div>
+        </el-row>
+        <el-row :gutter="20" v-for="item in this.list.description" :key="index">
+          <div class="un-handle-item">
+            <span class="font-medium">异常说明: {{ item }}</span>
+          </div>
+        </el-row>
+      </div>
+    </div>
+    <div class="un-handle-layout">
+      <div class="layout-title">评价信息</div>
+      <div class="un-handle-content">
+        <el-row :gutter="20">
+          <div class="un-handle-item">
+            <span class="font-medium">产出评价: {{ this.list.produceEvaluate }}</span>
           </div>
         </el-row>
         <el-row :gutter="20">
           <div class="un-handle-item">
-            <span class="font-medium">土壤平均温度: {{ this.list.meanSoilTemperature }}</span>
+            <span class="font-medium">孵化评价: {{ this.list.hatchEvaluate }}</span>
           </div>
         </el-row>
         <el-row :gutter="20">
           <div class="un-handle-item">
-            <span class="font-medium">空气平均湿度: {{ this.list.meanHumidity }}</span>
+            <span class="font-medium">出售价格: {{ this.list.price }}</span>
           </div>
         </el-row>
         <el-row :gutter="20">
@@ -91,26 +111,21 @@
       </div>
     </div>
     <div class="un-handle-layout">
-      <div class="layout-title">评价信息</div>
+      <div class="layout-title">药物使用</div>
       <div class="un-handle-content">
         <el-row :gutter="20">
           <div class="un-handle-item">
-            <span class="font-medium">天气平均温度: {{ this.list.meanTemperature }}</span>
+            <span class="font-medium">病理名称: {{ this.list.medicine }}</span>
           </div>
         </el-row>
         <el-row :gutter="20">
           <div class="un-handle-item">
-            <span class="font-medium">土壤平均温度: {{ this.list.meanSoilTemperature }}</span>
+            <span class="font-medium">病理说明(出现原因): {{ this.list.illnessName }}</span>
           </div>
         </el-row>
         <el-row :gutter="20">
           <div class="un-handle-item">
-            <span class="font-medium">空气平均湿度: {{ this.list.meanHumidity }}</span>
-          </div>
-        </el-row>
-        <el-row :gutter="20">
-          <div class="un-handle-item">
-            <span class="font-medium">土壤平均湿度: {{ this.list.meanSoilHumidity }}</span>
+            <span class="font-medium">采用药物: {{ this.list.illnessExplain }}</span>
           </div>
         </el-row>
       </div>
@@ -251,7 +266,8 @@ export default {
       },
       loading: false,
       dataEmpty: false,
-      list: null
+      list: null,
+      number: 0
 
     }
   },
