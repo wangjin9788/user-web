@@ -305,6 +305,13 @@ export const asyncRouterMap = [
         meta: {title: '修改评价信息'},
         hidden: true
       },
+      {
+        path: 'summary',
+        name: 'summary',
+        component: () => import('@/views/breed/breedInfo/summary/index'),
+        meta: {title: '养殖总结'},
+        hidden: true
+      },
     ]
   },
   {
