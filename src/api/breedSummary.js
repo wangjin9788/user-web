@@ -6,3 +6,9 @@ export function getBreedSummaryInfo(id) {
     method: 'get'
   })
 }
+export function getBreedGrowthAnalysis(id) {
+  return request({
+    url: '/breed-measure/growth-analysis/' + id,
+    method: 'get'
+  })
+}
