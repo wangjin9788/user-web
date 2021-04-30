@@ -312,6 +312,27 @@ export const asyncRouterMap = [
         meta: {title: '养殖总结'},
         hidden: true
       },
+      {
+        path: 'pathology',
+        name: 'pathology',
+        component: () => import('@/views/breed/pathology/index'),
+        meta: {title: '养殖病理信息'},
+        hidden: true
+      },
+      {
+        path: 'addBreedPathology',
+        name: 'addBreedPathology',
+        component: () => import('@/views/breed/pathology/add'),
+        meta: {title: '添加病理信息'},
+        hidden: true
+      },
+      {
+        path: 'updateBreedPathology',
+        name: 'updateBreedPathology',
+        component: () => import('@/views/breed/pathology/update'),
+        meta: {title: '修改病理信息'},
+        hidden: true
+      },
     ]
   },
   {
