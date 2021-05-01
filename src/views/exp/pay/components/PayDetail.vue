@@ -14,12 +14,14 @@
           </el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="商品名称：" prop="pay">
+        <el-input v-model.trim="pay.name" ></el-input>
+      </el-form-item>
       <el-form-item label="金额：" prop="pay">
         <el-input v-model.trim="pay.pay" ></el-input>
       </el-form-item>
-      <el-form-item label="分类图标：">
-              <single-upload v-model="pay.icon"></single-upload>
-      </el-form-item>
+
+
 
       <el-form-item>
         <el-button type="primary" @click="onSubmit('payFrom')">提交</el-button>
@@ -39,7 +41,7 @@
   };
   export default {
     name: "PayDetail",
-    components: {SingleUpload},
+
     props: {
       isEdit: {
         type: Boolean,

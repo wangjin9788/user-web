@@ -47,6 +47,9 @@
         <el-table-column label="开销类型" align="center">
           <template slot-scope="scope">{{scope.row.typeName}}</template>
         </el-table-column>
+        <el-table-column label="商品名称" align="center">
+          <template slot-scope="scope">{{scope.row.name}}</template>
+        </el-table-column>
         <el-table-column label="金额" align="center">
           <template slot-scope="scope">{{scope.row.pay}}</template>
         </el-table-column>
