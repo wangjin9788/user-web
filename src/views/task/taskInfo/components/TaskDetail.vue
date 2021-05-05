@@ -1,45 +1,36 @@
 <template>
   <el-card class="form-container" shadow="never">
-    <el-form :model="pay"
-             ref="payFrom"
+    <el-form :model="task"
+             ref="taskFrom"
              label-width="150px">
-      <el-form-item label="收入类型：">
-        <el-select v-model="pay.prcid"
-                   placeholder="请选择类型">
-          <el-option
-            v-for="item in selectPayLists"
-            :key="item.prcid"
-            :label="item.typeName"
-            :value="item.prcid">
-          </el-option>
-        </el-select>
+      <el-form-item label="任务时间：" prop="task" >
+        <el-date-picker
+          v-model="task.taskTime"
+          type="datetime"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
+          placeholder="选择日期时间">
+        </el-date-picker>
       </el-form-item>
-      <el-form-item label="商品名称：" prop="pay">
-        <el-input v-model.trim="pay.name" ></el-input>
+      <el-form-item label="任务内容：" prop="task">
+        <el-input v-model.trim="task.taskContent" ></el-input>
       </el-form-item>
-      <el-form-item label="金额：" prop="pay">
-        <el-input v-model.trim="pay.pay" ></el-input>
-      </el-form-item>
-
-
 
       <el-form-item>
-        <el-button type="primary" @click="onSubmit('payFrom')">提交</el-button>
-        <el-button v-if="!isEdit" @click="resetForm('payFrom')">重置</el-button>
+        <el-button type="primary" @click="onSubmit('taskFrom')">提交</el-button>
+        <el-button v-if="!isEdit" @click="resetForm('taskFrom')">重置</el-button>
       </el-form-item>
     </el-form>
   </el-card>
 </template>
 
 <script>
-  import {fetchList, createPay, getCategory,updatePay,getPay} from '@/api/pay';
-  const defaultPay = {
-    prcid: '',
-    money: 0.0,
-    icon: ''
+  import {fetchList, createTask,updateTask,getTask} from '@/api/task';
+  const defaultTask = {
+    tid: ''
   };
   export default {
-    name: "PayDetail",
+    name: "taskDetail",
 
     props: {
       isEdit: {
@@ -49,25 +40,24 @@
     },
     data() {
       return {
-        pay: Object.assign({}, defaultPay),
-        selectPayLists:getCategory().then(response => {
-                  this.selectPayLists = response.data;})
+        task: Object.assign({}, defaultTask),
+
       }
     },
     created() {
       if (this.isEdit) {
-        getPay(this.$route.query.id).then(response => {
-          this.pay = response.data;
+        getTask(this.$route.query.id).then(response => {
+          this.task = response.data;
         });
       } else {
-        this.pay = Object.assign({}, defaultPay);
+        this.task = Object.assign({}, defaultTask);
       }
-      this.getSelectPayList();
+      this.getSelectTaskList();
     },
     methods: {
-      getSelectPayList() {
+      getSelectTaskList() {
         fetchList(0, {pageSize: 100, pageNum: 1}).then(response => {
-          this.selectPayList = response.data;
+          this.selectTaskList = response.data;
         });
 
       },
@@ -80,7 +70,7 @@
               type: 'warning'
             }).then(() => {
               if (this.isEdit) {
-                updatePay( this.pay).then(response => {
+                updateTask( this.task).then(response => {
                   this.$message({
                     message: '修改成功',
                     type: 'success',
@@ -89,7 +79,7 @@
                   this.$router.back();
                 });
               } else {
-                createPay(this.pay).then(response => {
+                createTask(this.task).then(response => {
                   this.$refs[formName].resetFields();
                   this.resetForm(formName);
                   this.$message({
@@ -114,8 +104,8 @@
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
-        this.revenue = Object.assign({}, defaultPay);
-        this.getSelectPayList();
+        this.revenue = Object.assign({}, defaultTask);
+        this.getSelectTaskList();
       },
     }
   }

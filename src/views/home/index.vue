@@ -91,7 +91,6 @@
     name: 'home',
     data() {
       return {
-        orderCountDate: '',
         chartSettings: {
           xAxisType: 'time',
           area:true,
@@ -134,13 +133,6 @@
         this.selectCategoryData();
       },
       initOrderCountDate(){
-        let start = new Date();
-        start.setFullYear(2021);
-        start.setMonth(3);
-        start.setDate(1);
-        const end = new Date();
-        end.setTime(start.getTime() + 1000 * 60 * 60 * 24 * 30);
-        this.orderCountDate=[start,end];
         this.yearPayTime=2021;
         this.yearPic=2021;
 
@@ -154,12 +146,7 @@
          getPayAndRevenue().then(response => {
             for(let i=0;i<response.data.length;i++){
               let item=response.data[i];
-              let currDate=str2Date(item.date);
-              let start=this.orderCountDate[0];
-              let end=this.orderCountDate[1];
-              if(currDate.getTime()>=start.getTime()&&currDate.getTime()<=end.getTime()){
                 this.chartData.rows.push(item);
-              }
             }
           });
 

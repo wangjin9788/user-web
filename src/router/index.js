@@ -336,6 +336,35 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/task',
+    component: Layout,
+    redirect: '/task/taskInfo',
+    name: 'task',
+    meta: {title: '任务', icon: 'task'},
+    children: [
+      {
+        path: 'taskInfo',
+        name: 'taskInfo',
+        component: () => import('@/views/task/taskInfo/index'),
+        meta: {title: '任务信息'}
+      },
+      {
+        path: 'addTask',
+        name: 'addTask',
+        component: () => import('@/views/task/taskInfo/add'),
+        meta: {title: '添加任务'},
+        hidden: true
+      },
+      {
+        path: 'updateTask',
+        name: 'updateTask',
+        component: () => import('@/views/task/taskInfo/update'),
+        meta: {title: '修改任务'},
+        hidden: true
+      },
+    ]
+  },
+  {
     path: '/ums',
     component: Layout,
     redirect: '/ums/admin',

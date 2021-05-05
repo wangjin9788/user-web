@@ -35,12 +35,6 @@
               size="mini">
               添加
             </el-button>
-      <el-button
-        class="btn-add"
-        @click="handleAnalysis()"
-        size="mini">
-        统计数据
-      </el-button>
     </el-card>
     <div class="table-container">
       <el-table ref="revenueTable"
@@ -48,16 +42,16 @@
                 style="width: 100%;"
                 v-loading="listLoading" border>
         <el-table-column label="编号" width="100" align="center">
-          <template slot-scope="scope">{{scope.row.epid}}</template>
+          <template slot-scope="scope">{{scope.row.tid}}</template>
         </el-table-column>
-        <el-table-column label="开销类型" align="center">
-          <template slot-scope="scope">{{scope.row.typeName}}</template>
+        <el-table-column label="任务内容" align="center">
+          <template slot-scope="scope">{{scope.row.taskContent}}</template>
         </el-table-column>
-        <el-table-column label="商品名称" align="center">
-          <template slot-scope="scope">{{scope.row.name}}</template>
+        <el-table-column label="任务时间" align="center">
+          <template slot-scope="scope">{{scope.row.taskTime}}</template>
         </el-table-column>
-        <el-table-column label="金额" align="center">
-          <template slot-scope="scope">{{scope.row.pay}}</template>
+        <el-table-column label="任务状态" align="center">
+          <template slot-scope="scope">{{scope.row.status}}</template>
         </el-table-column>
         <el-table-column label="时间"  width="100" align="center">
           <template slot-scope="scope">{{scope.row.createTime}}</template>
@@ -94,7 +88,7 @@
   </div>
 </template>
 <script>
-  import {fetchList,createPay,deletePay} from '@/api/pay';
+  import {fetchList,deleteTask} from '@/api/task';
   import {formatDate} from '@/utils/date';
 
   const defaultListQuery = {
@@ -102,7 +96,7 @@
     pageSize: 5,
     selectDay:''
   };
-  const defaultRole = {
+  const defaultTask = {
     id: null,
     name: null,
     description: null,
@@ -111,7 +105,7 @@
   };
   export default {
 
-    name: 'roleList',
+    name: 'TaskList',
     data() {
       return {
         listQuery: Object.assign({}, defaultListQuery),
@@ -119,7 +113,7 @@
         total: null,
         listLoading: false,
         dialogVisible: false,
-        role: Object.assign({}, defaultRole),
+        Task: Object.assign({}, defaultTask),
         isEdit: false,
 
       }
@@ -156,17 +150,17 @@
         this.getList();
       },
        handleAddMenu() {
-              this.$router.push('/exp/addPay');
+              this.$router.push('/task/addTask');
        },
 
       handleDelete(index, row) {
-        this.$confirm('是否要删除该营收?', '提示', {
+        this.$confirm('是否要删除该任务?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
            console.log();
-          deletePay(row.epid).then(response => {
+          deleteTask(row.tid).then(response => {
             this.$message({
               type: 'success',
               message: '删除成功!'
@@ -176,19 +170,10 @@
         });
       },
       handleUpdate(index, row) {
-          this.$router.push({path:'/exp/updatePay',query:{id:row.epid}});
-      },
-      handleAnalysis() {
-          this.$router.push({path:'/home'});
+          this.$router.push({path:'/task/updateTask',query:{id:row.tid}});
       },
       getList() {
         this.listLoading = true;
-         //获取当前时间
-        var now   = new Date();
-        var monthn = now.getMonth()+1;
-        var yearn  = now.getFullYear();
-        var dayn = now.getDate();
-        this.selectDay = yearn+"-"+monthn+"-"+dayn;
         this.handleResetSearch();
         fetchList(this.listQuery).then(response => {
           this.listLoading = false;
