@@ -12,13 +12,13 @@
       <el-form-item  style="width : 60%" label="当前空气温度：" prop="detail" isEdit>
         <el-input v-model="detail.temperature"></el-input>
       </el-form-item>
-      <el-form-item  style="width : 60%" label="发酵堆温度：" prop="detail" isEdit>
-        <el-input v-model="detail.heapTemperature" ></el-input>
-      </el-form-item>
       <el-form-item  style="width : 60%" label="当前空气湿度：" prop="detail" isEdit>
         <el-input v-model="detail.humidity" ></el-input>
       </el-form-item>
-      <el-form-item  style="width : 60%" label="堆内湿度：" prop="detail" isEdit>
+      <el-form-item  style="width : 60%" label="发酵堆温度：" prop="detail" isEdit>
+        <el-input v-model="detail.heapTemperature" ></el-input>
+      </el-form-item>
+      <el-form-item  style="width : 60%" label="发酵堆湿度：" prop="detail" isEdit>
         <el-input v-model="detail.heapHumidity"></el-input>
       </el-form-item>
       <el-form-item  style="width : 60%" label="ph值：" prop="detail" isEdit>

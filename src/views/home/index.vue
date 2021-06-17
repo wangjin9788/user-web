@@ -23,7 +23,7 @@
                 :legend-visible="true"
                 :loading="loading"
                 :data-empty="dataEmpty"
-                :colors="['#40DBBC', '#3A9DFF']"
+
                 :yearPayTime="yearPayTime"
                ></ve-pie>
             </div>
@@ -51,7 +51,6 @@
                     :loading="loading"
                     :data-empty="dataEmpty"
                     :yearPic="yearPic"
-                     :colors="['#40DBBC', '#3A9DFF']"
                     ></ve-pie>
                 </div>
               </div>
@@ -81,12 +80,49 @@
 </template>
 
 <script>
-  import {str2Date} from '@/utils/date';
-  import img_home_order from '@/assets/images/home_order.png';
-  import img_home_today_amount from '@/assets/images/home_today_amount.png';
-  import img_home_yesterday_amount from '@/assets/images/home_yesterday_amount.png';
   import {getPayAndRevenue,getYearPicRate,getPayCategoryRate,getYearData,getMonthData} from '@/api/home';
-
+  const colors = [
+    'rgb(1,231,225)',
+    'rgb(229,88,234)',
+    'rgb(160,81,235)',
+    'rgb(42,178,116)',
+    'rgb(233,156,187)',
+    'rgb(241,213,100)',
+    'rgb(116,216,243)',
+    'rgb(55,182,255)',
+    'rgb(1,231,225)',
+    'rgb(229,88,234)',
+    'rgb(160,81,235)',
+    'rgb(42,178,116)',
+    'rgb(233,156,187)',
+    'rgb(241,213,100)',
+    'rgb(116,216,243)',
+    'rgb(55,182,255)',
+    'rgb(1,231,225)',
+    'rgb(229,88,234)',
+    'rgb(160,81,235)',
+    'rgb(42,178,116)',
+    'rgb(233,156,187)',
+    'rgb(241,213,100)',
+    'rgb(116,216,243)',
+    'rgb(55,182,255)',
+    'rgb(1,231,225)',
+    'rgb(229,88,234)',
+    'rgb(160,81,235)',
+    'rgb(42,178,116)',
+    'rgb(233,156,187)',
+    'rgb(241,213,100)',
+    'rgb(116,216,243)',
+    'rgb(55,182,255)',
+    'rgb(1,231,225)',
+    'rgb(229,88,234)',
+    'rgb(160,81,235)',
+    'rgb(42,178,116)',
+    'rgb(233,156,187)',
+    'rgb(241,213,100)',
+    'rgb(116,216,243)',
+    'rgb(55,182,255)',
+  ];
   export default {
     name: 'home',
     data() {
@@ -103,12 +139,14 @@
         payChartData:{
          columns: [],
           rows: [],
-          tooltipShow: true
+          tooltipShow: true,
+          color:[],
         },
         payCategoryChartData:{
          columns: [],
           rows: [],
-          tooltipShow: true
+          tooltipShow: true,
+          color:[],
         },
         loading: false,
         dataEmpty: false,
@@ -161,7 +199,9 @@
             /** 第一个饼状图 **/
            this.payChartData = {
                columns: ['type', 'money'],
-               rows: []
+               rows: [],
+               color:[]
+
            };
           /** 第一个饼状图 **/
           getYearPicRate(this.yearPayTime).then(response => {
@@ -177,13 +217,15 @@
            /** 第二个饼状图 **/
            this.payCategoryChartData = {
              columns: ['typeName', 'money'],
-             rows: []
+             rows: [],
+             color:[]
            };
           /** 第二个饼状图 **/
           getPayCategoryRate(this.yearPic).then(response => {
              for(let i=0;i<response.data.length;i++){
                let item=response.data[i];
                this.payCategoryChartData.rows.push(item);
+               this.payCategoryChartData.color.push(colors[i]);
              }
           });
        }, 1000);

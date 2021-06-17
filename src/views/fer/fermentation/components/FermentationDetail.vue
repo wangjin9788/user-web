@@ -26,7 +26,15 @@
                  </el-option>
                </el-select>
             </el-form-item>
-
+     <el-form-item label="发酵时间：" prop="fermentation" >
+       <el-date-picker
+         v-model="fermentation.ferTime"
+         type="datetime"
+         format="yyyy-MM-dd hh:mm"
+         value-format="yyyy-MM-dd hh:mm"
+         placeholder="选择日期时间">
+       </el-date-picker>
+     </el-form-item>
             <el-form-item label="发酵堆图片：">
              <template slot-scope="scope">
                      <single-upload v-model="fermentation.img"></single-upload>
@@ -34,6 +42,7 @@
 
             </el-form-item>
       <el-form-item>
+
         <el-button type="primary" @click="onSubmit('fermentationFrom')">提交</el-button>
         <el-button v-if="!isEdit" @click="resetForm('fermentationFrom')">重置</el-button>
       </el-form-item>

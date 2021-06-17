@@ -52,12 +52,15 @@
         </el-table-column>
         <el-table-column label="图片" align="center">
           <template slot-scope="scope">
-            <img style="height:80px" v-image-preview :src="scope.row.img">
+            <img style="height:80px ;z-index:8888888888888" v-image-preview :src="scope.row.img">
           </template>
         </el-table-column>
 
         <el-table-column label="评价" align="center">
           <template slot-scope="scope">{{ scope.row.evaluate }}</template>
+        </el-table-column>
+        <el-table-column label="发酵时间" align="center">
+          <template slot-scope="scope">{{ scope.row.ferTime }}</template>
         </el-table-column>
         <el-table-column label="发酵状态" width="100" align="center">
           <template slot-scope="scope">
@@ -121,7 +124,6 @@
 </template>
 <script>
 import {fetchList, deleteFermentation, updateSummary} from '@/api/fermentation';
-import {formatDate} from '@/utils/date';
 
 const defaultListQuery = {
   pageNum: 1,

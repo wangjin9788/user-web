@@ -53,11 +53,11 @@
         <el-table-column label="检查时温度" align="center">
           <template slot-scope="scope">{{scope.row.temperature}}℃</template>
         </el-table-column>
+        <el-table-column label="检查时空气湿度" align="center">
+          <template slot-scope="scope">{{scope.row.humidity}}%</template>
+        </el-table-column>
         <el-table-column label="堆内温度" align="center">
           <template slot-scope="scope">{{scope.row.heapTemperature}}℃</template>
-        </el-table-column>
-        <el-table-column label="当前空气湿度" align="center">
-          <template slot-scope="scope">{{scope.row.humidity}}%</template>
         </el-table-column>
         <el-table-column label="堆内湿度" align="center">
           <template slot-scope="scope">{{scope.row.heapHumidity}}%</template>
