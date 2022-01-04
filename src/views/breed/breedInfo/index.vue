@@ -11,17 +11,28 @@
           size="small">
           查询搜索
         </el-button>
-        <el-button
-          style="float:right;margin-right: 15px"
-          @click="handleResetSearch()"
-          size="small">
-          重置
-        </el-button>
       </div>
       <div style="margin-top: 15px">
         <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
-          <el-form-item label="状态：">
-            <el-input v-model="listQuery.status" class="input-width" placeholder="状态" clearable></el-input>
+          <el-form-item label="室内/室外：">
+            <el-select v-model="listQuery.type" class="input-width" placeholder="室内/室外" clearable>
+              <el-option
+                v-for="item in selectTypeLists"
+                :key="item.type"
+                :label="item.assess"
+                :value="item.type">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="室内/室外：">
+            <el-select v-model="listQuery.status" class="input-width" placeholder="室内/室外" clearable>
+              <el-option
+                v-for="item in selectStatusLists"
+                :key="item.status"
+                :label="item.assess"
+                :value="item.status">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-form>
       </div>
@@ -35,6 +46,12 @@
         size="mini">
         添加
       </el-button>
+      <el-button
+        class="btn-add"
+        @click="batchDetails()"
+        size="mini">
+        添加日常数据
+      </el-button>
     </el-card>
     <div class="table-container">
       <el-table ref="revenueTable"
@@ -44,23 +61,23 @@
         <el-table-column label="编号" width="100" align="center">
           <template slot-scope="scope">{{ scope.row.bid }}</template>
         </el-table-column>
+        <el-table-column label="栏位编号" width="100" align="center">
+          <template slot-scope="scope">{{ scope.row.number }}</template>
+        </el-table-column>
         <el-table-column label="投入时间" align="center">
           <template slot-scope="scope">{{ scope.row.inputTime }}</template>
         </el-table-column>
         <el-table-column label="投入重量" align="center">
           <template slot-scope="scope">{{ scope.row.inputWeight }}</template>
         </el-table-column>
-        <el-table-column label="产出时间" align="center">
-          <template slot-scope="scope">{{ scope.row.proTime }}</template>
-        </el-table-column>
-        <el-table-column label="产出重量" align="center">
-          <template slot-scope="scope">{{ scope.row.proWeight }}</template>
-        </el-table-column>
         <el-table-column label="养殖模式" align="center">
           <template slot-scope="scope">{{ scope.row.pattern }}</template>
         </el-table-column>
-        <el-table-column label="饲料（发酵）id" align="center">
-          <template slot-scope="scope">{{ scope.row.feedIds }}</template>
+        <el-table-column label="养殖类型" align="center">
+          <template slot-scope="scope" >
+            <span v-if="scope.row.type==0">室内</span>
+            <span v-if="scope.row.type==1">室外</span>
+          </template>
         </el-table-column>
         <el-table-column label="养殖状态" width="100" align="center">
           <template slot-scope="scope">
@@ -107,6 +124,10 @@
               </el-button>
               <el-button size="mini"
                          type="text"
+                         @click="handleChart(scope.$index, scope.row)">图表信息
+              </el-button>
+              <el-button size="mini"
+                         type="text"
                          @click="handleSummary(scope.$index, scope.row)">总结列表
               </el-button>
             </el-row>
@@ -148,7 +169,9 @@ import {fetchList, deleteBreed, updateSummary} from '@/api/breedInfo';
 
 const defaultListQuery = {
   pageNum: 1,
-  pageSize: 5
+  pageSize: 5,
+  type:0,
+  status:0
 };
 export default {
 
@@ -160,7 +183,8 @@ export default {
       listLoading: false,
       dialogVisible: false,
       isEdit: false,
-
+      selectTypeLists: [{type:0,assess: "室内"},{type:1,assess: "室外"}],
+      selectStatusLists: [{status:0,assess: "正在养殖"},{status:1,assess: "养殖完成"}]
     }
   },
   created() {
@@ -168,9 +192,6 @@ export default {
   },
 
   methods: {
-    handleResetSearch() {
-
-    },
     handleSearchList() {
       this.listQuery.pageNum = 1;
       this.getList();
@@ -187,15 +208,16 @@ export default {
     handleAddBreed() {
       this.$router.push('/breed/addBreed');
     },
-
+    batchDetails(index, row) {
+      this.$router.push({path: '/breed/batchBreedDetails', query: {type: this.listQuery.type,status:this.listQuery.status}});
+    },
     handleDelete(index, row) {
-      this.$confirm('是否要删除该营收?', '提示', {
+      this.$confirm('是否要删除该养殖记录?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        console.log();
-        deleteBreed(row.fid).then(response => {
+        deleteBreed(row.bid).then(response => {
           this.$message({
             type: 'success',
             message: '删除成功!'
@@ -225,8 +247,12 @@ export default {
     handleSummary(index, row) {
       this.$router.push({path: '/breed/summary', query: {bid: row.bid}});
     },
+    handleChart(index, row) {
+      this.$router.push({path: '/breed/chart', query: {bid: row.bid}});
+    },
     /** 修改状态，并将数据进行总结 **/
     handleStatusChange(index, row) {
+      this.$router.push({path: '/breed/summary', query: {bid: row.bid}});
       updateSummary(row.bid).then(response => {
         this.$message({
           message: '修改成功',
@@ -238,7 +264,6 @@ export default {
     },
     getList() {
       this.listLoading = true;
-      this.handleResetSearch();
       fetchList(this.listQuery).then(response => {
         this.listLoading = false;
         this.list = response.data;

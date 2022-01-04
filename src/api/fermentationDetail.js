@@ -51,5 +51,11 @@ export function getPatternList() {
     method: 'get',
   })
 }
-
+export function batchFerDetail(data) {
+  return request({
+    url: '/fermentation-detail/batch/detail',
+    method: 'post',
+    data: data
+  })
+}
 

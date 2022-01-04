@@ -38,6 +38,12 @@
         size="mini">
         添加
       </el-button>
+      <el-button
+        class="btn-add"
+        @click="batchDetails()"
+        size="mini">
+        批量添加详情
+      </el-button>
     </el-card>
     <div class="table-container">
       <el-table ref="revenueTable"
@@ -46,6 +52,9 @@
                 v-loading="listLoading" border>
         <el-table-column label="编号" width="100" align="center">
           <template slot-scope="scope">{{ scope.row.fid }}</template>
+        </el-table-column>
+        <el-table-column label="发酵堆编号" width="100" align="center">
+          <template slot-scope="scope">{{ scope.row.number }}</template>
         </el-table-column>
         <el-table-column label="模型名称" align="center">
           <template slot-scope="scope">{{ scope.row.patternName }}</template>
@@ -56,11 +65,14 @@
           </template>
         </el-table-column>
 
-        <el-table-column label="评价" align="center">
+        <el-table-column v-show="isEdit" label="评价" align="center">
           <template slot-scope="scope">{{ scope.row.evaluate }}</template>
         </el-table-column>
         <el-table-column label="发酵时间" align="center">
           <template slot-scope="scope">{{ scope.row.ferTime }}</template>
+        </el-table-column>
+        <el-table-column label="原料重量" align="center">
+          <template slot-scope="scope">{{scope.row.weight}}斤</template>
         </el-table-column>
         <el-table-column label="发酵状态" width="100" align="center">
           <template slot-scope="scope">
@@ -75,6 +87,9 @@
         <el-table-column label="创建时间" align="center">
           <template slot-scope="scope">{{ scope.row.createTime }}</template>
         </el-table-column>
+        <el-table-column label="发酵次数" align="center">
+          <template slot-scope="scope">{{ scope.row.curFermentation }}</template>
+        </el-table-column>
         <el-table-column label="信息" width="160" align="center">
           <template slot-scope="scope">
             <el-row>
@@ -86,7 +101,7 @@
               </el-button>
               <el-button size="mini"
                          type="text"
-                         @click="handleDetail(scope.$index, scope.row)">总结信息（暂时不可用）
+                         @click="handleSummary(scope.$index, scope.row)">图表总结
               </el-button>
             </el-row>
           </template>
@@ -149,6 +164,9 @@ export default {
   },
 
   methods: {
+    batchDetails(index, row) {
+      this.$router.push({path: '/fer/batchFerDetails'});
+    },
     handleShowNextLevel(index, row) {
       this.$router.push({path: '/fer/fermentation', query: {parentId: row.id}})
     },
@@ -173,12 +191,11 @@ export default {
     },
 
     handleDelete(index, row) {
-      this.$confirm('是否要删除该营收?', '提示', {
+      this.$confirm('是否要删除该发酵?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        console.log();
         deleteFermentation(row.fid).then(response => {
           this.$message({
             type: 'success',
@@ -193,6 +210,9 @@ export default {
     },
     handleDetail(index, row) {
       this.$router.push({path: '/fer/detail', query: {id: row.fid}});
+    },
+    handleSummary(index, row) {
+      this.$router.push({path: '/fer/summary', query: {id: row.fid}});
     },
     /** 修改状态，并将数据进行总结 **/
     handleStatusChange(index, row) {

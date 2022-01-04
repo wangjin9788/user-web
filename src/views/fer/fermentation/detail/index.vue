@@ -65,9 +65,6 @@
         <el-table-column label="ph值" align="center">
           <template slot-scope="scope">{{scope.row.ph}}</template>
         </el-table-column>
-        <el-table-column label="原料重量" align="center">
-          <template slot-scope="scope">{{scope.row.weight}}kg</template>
-        </el-table-column>
         <el-table-column label="创建时间" align="center">
           <template slot-scope="scope">{{scope.row.createTime}}</template>
         </el-table-column>
@@ -150,7 +147,6 @@ export default {
       this.getList(this.id);
     },
     handleAddFermentation() {
-      console.log(this.id);
       this.$router.push({path:'/fer/addFermentationDetail',query:{id:this.id}});
     },
 
@@ -160,7 +156,6 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        console.log();
         deleteFermentationDetail(row.fdId).then(response => {
           this.$message({
             type: 'success',
@@ -196,6 +191,5 @@ export default {
   }
 }
 </script>
-<style></style>
 
 

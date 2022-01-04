@@ -1,4 +1,4 @@
-<template> 
+<template>
   <div class="app-container">
     <el-card class="filter-container" shadow="never">
       <div>
@@ -44,14 +44,38 @@
         <el-table-column label="编号" width="100" align="center">
           <template slot-scope="scope">{{scope.row.tid}}</template>
         </el-table-column>
+        <el-table-column label="关联id" align="center">
+          <template slot-scope="scope">{{scope.row.contactId}}</template>
+        </el-table-column>
+        <el-table-column label="关联编号" align="center">
+          <template slot-scope="scope">{{scope.row.number}}</template>
+        </el-table-column>
         <el-table-column label="任务内容" align="center">
           <template slot-scope="scope">{{scope.row.taskContent}}</template>
         </el-table-column>
         <el-table-column label="任务时间" align="center">
           <template slot-scope="scope">{{scope.row.taskTime}}</template>
         </el-table-column>
-        <el-table-column label="任务状态" align="center">
-          <template slot-scope="scope">{{scope.row.status}}</template>
+        <el-table-column label="类型" align="center">
+          <template slot-scope="scope">
+            <span v-if=" scope.row.type==0">其他</span>
+            <span v-if=" scope.row.type==1">翻堆</span>
+            <span v-if=" scope.row.type==2">浇水</span>
+            <span v-if=" scope.row.type==3">饲喂</span>
+            <span v-if=" scope.row.type==4">促卵素</span>
+            <span v-if=" scope.row.type==5">收取蚓茧</span>
+            <span v-if=" scope.row.type==6">翻堆</span>
+           </template>
+        </el-table-column>
+        <el-table-column label="任务状态" width="100" align="center">
+          <template slot-scope="scope">
+            <el-switch
+              @change="handleStatusChange(scope.$index, scope.row)"
+              :active-value="1"
+              :inactive-value="0"
+              v-model="scope.row.status">
+            </el-switch>
+          </template>
         </el-table-column>
         <el-table-column label="时间"  width="100" align="center">
           <template slot-scope="scope">{{scope.row.createTime}}</template>
@@ -88,7 +112,7 @@
   </div>
 </template>
 <script>
-  import {fetchList,deleteTask} from '@/api/task';
+  import {fetchList,deleteTask,updateTaskStatus} from '@/api/task';
   import {formatDate} from '@/utils/date';
 
   const defaultListQuery = {
@@ -171,6 +195,18 @@
       },
       handleUpdate(index, row) {
           this.$router.push({path:'/task/updateTask',query:{id:row.tid}});
+      },
+      /** 修改状态，并将数据进行总结 **/
+      handleStatusChange(index, row) {
+        updateTaskStatus(row.tid).then(response => {
+          this.$message({
+            message: '修改成功',
+            type: 'success',
+            duration: 1000
+          });
+          row.status = 1;
+          this.getList();
+        });
       },
       getList() {
         this.listLoading = true;

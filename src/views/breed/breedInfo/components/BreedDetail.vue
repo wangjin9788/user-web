@@ -1,10 +1,14 @@
 <template>
+
   <el-card class="form-container" shadow="never">
     <el-form :model="breed"
              ref="breedFrom"
              label-width="150px">
-      <el-form-item v-show="false" label="编号：" prop="breed" isEdit>
+      <el-form-item v-show="false" label="id：" prop="breed" isEdit>
         <el-input v-model.trim="breed.bid"></el-input>
+      </el-form-item>
+      <el-form-item  label="栏位编号：" prop="breed" >
+        <el-input v-model.trim="breed.number"></el-input>
       </el-form-item>
       <el-form-item label="投入时间：" prop="breed" >
         <el-date-picker
@@ -18,21 +22,21 @@
       <el-form-item  label="投入重量：" prop="breed" isEdit>
         <el-input v-model.trim="breed.inputWeight"></el-input>
       </el-form-item>
-      <el-form-item  label="产出时间：" prop="breed" isEdit>
-        <el-date-picker
-          v-model="breed.produceTime"
-          type="datetime"
-          format="yyyy-MM-dd hh:mm"
-          value-format="yyyy-MM-dd hh:mm"
-          placeholder="选择日期时间">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item  label="产出重量：" prop="breed" isEdit>
-        <el-input v-model.trim="breed.produceWeight"></el-input>
-      </el-form-item>
-      <el-form-item  label="发酵饲料id：" prop="breed" isEdit>
-        <el-input v-model.trim="breed.feedIds"></el-input>
-      </el-form-item>
+<!--      <el-form-item  label="产出时间：" prop="breed" isEdit>-->
+<!--        <el-date-picker-->
+<!--          v-model="breed.produceTime"-->
+<!--          type="datetime"-->
+<!--          format="yyyy-MM-dd hh:mm"-->
+<!--          value-format="yyyy-MM-dd hh:mm"-->
+<!--          placeholder="选择日期时间">-->
+<!--        </el-date-picker>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item  label="产出重量：" prop="breed" isEdit>-->
+<!--        <el-input v-model.trim="breed.produceWeight"></el-input>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item  label="发酵饲料id：" prop="breed" isEdit>-->
+<!--        <el-input v-model.trim="breed.feedIds"></el-input>-->
+<!--      </el-form-item>-->
       <el-form-item label="模型：">
         <el-select v-model="breed.pid" placeholder="请选择模型">
           <el-option
@@ -115,7 +119,6 @@ export default {
                 this.$router.back();
               });
             } else {
-              console.log(this.breed);
               createBreed(this.breed).then(response => {
                 this.$refs[formName].resetFields();
                 this.resetForm(formName);
@@ -124,6 +127,7 @@ export default {
                   type: 'success',
                   duration: 1000
                 });
+
                 this.$router.back();
               });
             }

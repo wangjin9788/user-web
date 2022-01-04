@@ -20,11 +20,15 @@
       </div>
       <div style="margin-top: 15px">
         <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
-          <el-form-item label="年：">
-            <el-input v-model="listQuery.year" class="input-width" placeholder="年份" clearable></el-input>
-          </el-form-item>
-          <el-form-item label="月：">
-            <el-input v-model="listQuery.month" class="input-width" placeholder="月份" clearable></el-input>
+          <el-form-item label="操作类型：">
+            <el-select v-model="listQuery.type" class="input-width"  clearable>
+              <el-option
+                v-for="item in selectTypeLists"
+                :key="item.abnormal"
+                :label="item.assess"
+                :value="item.abnormal">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-form>
       </div>
@@ -50,11 +54,21 @@
         <el-table-column label="养殖箱编号" align="center">
           <template slot-scope="scope">{{ scope.row.bid }}</template>
         </el-table-column>
+        <el-table-column label="操作类型" align="center">
+          <template slot-scope="scope">
+            <span v-if="scope.row.type==0">淋水</span>
+            <span v-if="scope.row.type==1">饲喂</span>
+            <span v-if="scope.row.type==2">淋水/饲喂</span>
+            </template>
+        </el-table-column>
+        <el-table-column label="饲料编号" align="center">
+          <template slot-scope="scope">{{ scope.row.ferNumber }}</template>
+        </el-table-column>
         <el-table-column label="投喂重量" align="center">
-          <template slot-scope="scope">{{ scope.row.feeding }}℃</template>
+          <template slot-scope="scope">{{ scope.row.feeding }}</template>
         </el-table-column>
         <el-table-column label="浇灌量ml" align="center">
-          <template slot-scope="scope">{{ scope.row.water }}℃</template>
+          <template slot-scope="scope">{{ scope.row.water }}</template>
         </el-table-column>
         <el-table-column label="浇灌后湿度" align="center">
           <template slot-scope="scope">{{ scope.row.waterHumidity }}%</template>
@@ -95,7 +109,8 @@ import {fetchList, deleteBreedOperation} from '@/api/breedOperation';
 
 const defaultListQuery = {
   pageNum: 1,
-  pageSize: 5
+  pageSize: 5,
+  type:0
 };
 export default {
 
@@ -107,7 +122,7 @@ export default {
       listLoading: false,
       dialogVisible: false,
       isEdit: false,
-
+      selectTypeLists:[{abnormal:0,assess:'淋水'},{abnormal:1,assess:'饲喂'},{abnormal:2,assess:'淋水/饲喂'},{abnormal:-1,assess:'所有类型'}]
     }
   },
   created() {

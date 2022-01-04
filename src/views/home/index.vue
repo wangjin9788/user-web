@@ -60,7 +60,7 @@
     </div>
 
     <div class="statistics-layout">
-      <div class="layout-title">订单统计</div>
+      <div class="layout-title">金额统计</div>
       <el-row>
         <el-col :span="20">
           <div style="padding: 10px;border-left:1px solid #DCDFE6">
@@ -126,6 +126,7 @@
   export default {
     name: 'home',
     data() {
+
       return {
         chartSettings: {
           xAxisType: 'time',
@@ -134,7 +135,9 @@
           chartData: {
           columns: [],
           rows: [],
-          tooltipShow: true
+          tooltipShow: true,
+            showDetail:0,//默认第一项展开
+            transferList:[]
         },
         payChartData:{
          columns: [],
@@ -164,27 +167,28 @@
       this.selectData();
       this.selectCategoryData();
     },
-    methods:{
-      handleDateChange(){
+    methods: {
+
+      handleDateChange() {
         this.getData();
         this.selectData();
         this.selectCategoryData();
       },
-      initOrderCountDate(){
-        this.yearPayTime=2021;
-        this.yearPic=2021;
+      initOrderCountDate() {
+        this.yearPayTime = 2021;
+        this.yearPic = 2021;
 
       },
-      getData(){
+      getData() {
         setTimeout(() => {
           this.chartData = {
-            columns: ['date', 'pay','revenue'],
+            columns: ['date', 'pay', 'revenue'],
             rows: []
           };
-         getPayAndRevenue().then(response => {
-            for(let i=0;i<response.data.length;i++){
-              let item=response.data[i];
-                this.chartData.rows.push(item);
+          getPayAndRevenue().then(response => {
+            for (let i = 0; i < response.data.length; i++) {
+              let item = response.data[i];
+              this.chartData.rows.push(item);
             }
           });
 
@@ -194,41 +198,41 @@
 
 
       },
-      selectData(){
-       setTimeout(() => {
-            /** 第一个饼状图 **/
-           this.payChartData = {
-               columns: ['type', 'money'],
-               rows: [],
-               color:[]
+      selectData() {
+        setTimeout(() => {
+          /** 第一个饼状图 **/
+          this.payChartData = {
+            columns: ['type', 'money'],
+            rows: [],
+            color: []
 
-           };
+          };
           /** 第一个饼状图 **/
           getYearPicRate(this.yearPayTime).then(response => {
-            for(let i=0;i<response.data.length;i++){
-              let item=response.data[i];
+            for (let i = 0; i < response.data.length; i++) {
+              let item = response.data[i];
               this.payChartData.rows.push(item);
             }
           });
-       }, 1000);
+        }, 1000);
       },
-      selectCategoryData(){
-       setTimeout(() => {
-           /** 第二个饼状图 **/
-           this.payCategoryChartData = {
-             columns: ['typeName', 'money'],
-             rows: [],
-             color:[]
-           };
+      selectCategoryData() {
+        setTimeout(() => {
+          /** 第二个饼状图 **/
+          this.payCategoryChartData = {
+            columns: ['typeName', 'money'],
+            rows: [],
+            color: []
+          };
           /** 第二个饼状图 **/
           getPayCategoryRate(this.yearPic).then(response => {
-             for(let i=0;i<response.data.length;i++){
-               let item=response.data[i];
-               this.payCategoryChartData.rows.push(item);
-               this.payCategoryChartData.color.push(colors[i]);
-             }
+            for (let i = 0; i < response.data.length; i++) {
+              let item = response.data[i];
+              this.payCategoryChartData.rows.push(item);
+              this.payCategoryChartData.color.push(colors[i]);
+            }
           });
-       }, 1000);
+        }, 1000);
       }
     }
   }
@@ -264,4 +268,5 @@
     margin-top: 40px;
     border: 1px solid #DCDFE6;
   }
+
 </style>

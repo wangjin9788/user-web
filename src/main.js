@@ -22,7 +22,8 @@ Vue.use(VueDirectiveImagePreviewer)
 
 Vue.use(ElementUI, { locale })
 Vue.use(VCharts)
-
+import mavonEditor from 'mavon-editor'
+Vue.use(mavonEditor)
 Vue.config.productionTip = false
 
 new Vue({

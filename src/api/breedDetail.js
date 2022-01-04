@@ -37,5 +37,12 @@ export function deleteBreedDetail(id) {
     method: 'post'
   })
 }
+export function batchBreedDetail(data) {
+  return request({
+    url: '/breed-detail/batch/detail',
+    method: 'post',
+    data: data
+  })
+}
 
 

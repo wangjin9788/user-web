@@ -3,20 +3,34 @@
     <el-form :model="operation"
              ref="operationFrom"
              label-width="150px">
-      <el-form-item v-show="isEdit"  style="width : 60%" label="养殖操作编号：" prop="operation" isEdit>
+      <el-form-item v-show="isEdit" style="width : 60%" label="养殖操作编号：" prop="operation" isEdit>
         <el-input v-model="operation.boId" readonly="readonly"></el-input>
       </el-form-item>
-      <el-form-item  style="width : 60%" label="养殖信息编号：" prop="operation" isEdit>
+      <el-form-item style="width : 60%" label="养殖信息编号：" prop="operation" isEdit>
         <el-input v-model="operation.bid" readonly="readonly"></el-input>
       </el-form-item>
-      <el-form-item  style="width : 60%" label="投喂重量：" prop="operation" isEdit>
+      <el-form-item style="width : 60%" label="操作类型：" prop="operation" isEdit>
+        <el-select v-model="operation.type" placeholder="请选择类型">
+          <el-option
+            v-for="item in typeList"
+            :key="item.abnormal"
+            :label="item.assess"
+            :value="item.abnormal">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item style="width : 60%" label="饲料编号：" prop="operation" isEdit>
+        <el-input v-model="operation.ferNumber"></el-input>
+      </el-form-item>
+
+      <el-form-item style="width : 60%" label="投喂重量：" prop="operation" isEdit>
         <el-input v-model="operation.feeding"></el-input>
       </el-form-item>
-      <el-form-item  style="width : 60%" label="浇灌量ml：" prop="operation" isEdit>
-        <el-input v-model="operation.water" ></el-input>
+      <el-form-item style="width : 60%" label="浇灌量ml：" prop="operation" isEdit>
+        <el-input v-model="operation.water"></el-input>
       </el-form-item>
-      <el-form-item  style="width : 60%" label="浇灌后湿度：" prop="operation" isEdit>
-        <el-input v-model="operation.waterHumidity" ></el-input>
+      <el-form-item style="width : 60%" label="浇灌后湿度：" prop="operation" isEdit>
+        <el-input v-model="operation.waterHumidity"></el-input>
       </el-form-item>
 
       <el-form-item>
@@ -28,7 +42,8 @@
 </template>
 
 <script>
-import {fetchList, createBreedOperation,updateBreedOperation,getBreedOperationInfo} from '@/api/breedOperation';
+import {fetchList, createBreedOperation, updateBreedOperation, getBreedOperationInfo} from '@/api/breedOperation';
+
 const defaultOperation = {
   boId: 0,
   bid: 0
@@ -45,6 +60,7 @@ export default {
   data() {
     return {
       operation: Object.assign({}, defaultOperation),
+      typeList: [ {abnormal: 1, assess: '翻堆'}, {abnormal: 2, assess: '浇水'}, {abnormal: 3, assess: '饲喂'}, {abnormal: 4, assess: '促卵素'}, {abnormal: 5, assess: '收取蚓茧'},{abnormal: 0, assess: '其他'}]
     }
   },
   created() {
@@ -55,7 +71,7 @@ export default {
       });
     } else {
       this.operation = Object.assign({}, defaultOperation);
-      this.operation.bid=this.$route.query.bid;
+      this.operation.bid = this.$route.query.bid;
     }
 
     this.getSelectOperationList(this.operation.bid);
@@ -76,7 +92,7 @@ export default {
             type: 'warning'
           }).then(() => {
             if (this.isEdit) {
-              updateBreedOperation( this.operation).then(response => {
+              updateBreedOperation(this.operation).then(response => {
                 this.$message({
                   message: '修改成功',
                   type: 'success',

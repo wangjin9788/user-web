@@ -53,14 +53,17 @@
         <el-table-column label="检查时天气温度" align="center">
           <template slot-scope="scope">{{ scope.row.temperature }}℃</template>
         </el-table-column>
-        <el-table-column label="养殖土壤温度" align="center">
-          <template slot-scope="scope">{{ scope.row.soilTemperature }}℃</template>
-        </el-table-column>
         <el-table-column label="检查时空气湿度" align="center">
           <template slot-scope="scope">{{ scope.row.humidity }}%</template>
         </el-table-column>
+        <el-table-column label="养殖土壤温度" align="center">
+          <template slot-scope="scope">{{ scope.row.soilTemperature }}℃</template>
+        </el-table-column>
         <el-table-column label="养殖土壤湿度" align="center">
           <template slot-scope="scope">{{ scope.row.soilHumidity }}%</template>
+        </el-table-column>
+        <el-table-column label="ph值" align="center">
+          <template slot-scope="scope">{{ scope.row.ph}}</template>
         </el-table-column>
         <el-table-column label="异常情况" align="center">
           <template slot-scope="scope">

@@ -23,6 +23,12 @@ export function updateTask(data) {
     data: data
   })
 }
+export function updateTaskStatus(id) {
+  return request({
+    url: '/task/updateStatus/' + id,
+    method: 'post'
+  })
+}
 
 export function getTask(id) {
   return request({
@@ -34,5 +40,11 @@ export function deleteTask(id) {
   return request({
     url: '/task/delete/' + id,
     method:'post'
+  })
+}
+export function getTaskRelationList(type) {
+  return request({
+    url: '/task/relation/' + type,
+    method: 'get'
   })
 }

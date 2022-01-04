@@ -35,6 +35,58 @@ export const constantRouterMap = [
 
 export const asyncRouterMap = [
   {
+    path: '/ski',
+    component: Layout,
+    redirect: '/ski',
+    name: 'ski',
+    meta: {title: '养殖资料', icon: 'task'},
+    children: [
+      {
+        path: 'summarygs',
+        name: 'summarygs',
+        component: () => import('@/views/ski/summaryIndex'),
+        meta: {title: '概述', icon: 'summary'}
+      },
+
+      {
+        path: 'livingHabits',
+        name: 'livingHabits',
+        component: () => import('@/views/ski/livingHabitsIndex'),
+        meta: {title: '生活习性', icon: 'livingHabits'}
+      },
+      {
+        path: 'breeding',
+        name: 'breeding',
+        component: () => import('@/views/ski/breedingIndex'),
+        meta: {title: '繁殖/育种', icon: 'breedingIndex'}
+      },
+      {
+        path: 'breedingMode',
+        name: 'breedingMode',
+        component: () => import('@/views/ski/breedingModeIndex'),
+        meta: {title: '养殖方式', icon: 'breedingMode'}
+      },
+      {
+        path: 'fodderConfig',
+        name: 'fodderConfig',
+        component: () => import('@/views/ski/fodderConfig'),
+        meta: {title: '饲料配置', icon: 'fodderConfig'}
+      },
+      {
+        path: 'dailyManagement',
+        name: 'dailyManagement',
+        component: () => import('@/views/ski/dailyManagementIndex'),
+        meta: {title: '日常管理', icon: 'dailyManagement'}
+      },
+      {
+        path: 'Pathology',
+        name: 'Pathology',
+        component: () => import('@/views/ski/PathologyIndex'),
+        meta: {title: '病理防治', icon: 'Pathology'}
+      },
+    ]
+  },
+  {
     path: '/task',
     component: Layout,
     redirect: '/task/taskInfo',
@@ -140,6 +192,13 @@ export const asyncRouterMap = [
         hidden: true
       },
       {
+        path: 'batchFerDetails',
+        name: 'batchFerDetails',
+        component: () => import('@/views/fer/fermentation/batchDetails'),
+        meta: {title: '批量添加详情'},
+        hidden: true
+      },
+      {
         path: 'detail',
         name: 'detail',
         component: () => import('@/views/fer/fermentation/detail/index'),
@@ -158,6 +217,13 @@ export const asyncRouterMap = [
         name: 'updateFermentationDetail',
         component: () => import('@/views/fer/fermentation/detail/update'),
         meta: {title: '修改发酵详情'},
+        hidden: true
+      },
+      {
+        path: 'summary',
+        name: 'summary',
+        component: () => import('@/views/fer/fermentation/summary/index'),
+        meta: {title: '图表详情'},
         hidden: true
       },
       {
@@ -194,6 +260,13 @@ export const asyncRouterMap = [
         name: 'breedInfo',
         component: () => import('@/views/breed/breedInfo/index'),
         meta: {title: '养殖信息'}
+      },
+      {
+        path: 'batchBreedDetails',
+        name: 'batchBreedDetails',
+        component: () => import('@/views/breed/breedInfo/batchDetails'),
+        meta: {title: '批量添加详情'},
+        hidden: true
       },
       {
         path: 'addBreed',
@@ -342,6 +415,13 @@ export const asyncRouterMap = [
         hidden: true
       },
       {
+        path: 'chart',
+        name: 'chart',
+        component: () => import('@/views/breed/breedInfo/chart/index'),
+        meta: {title: '图表详情'},
+        hidden: true
+      },
+      {
         path: 'pathology',
         name: 'pathology',
         component: () => import('@/views/breed/pathology/index'),
@@ -431,6 +511,35 @@ export const asyncRouterMap = [
         meta: {title: '资源分类'},
         hidden: true
       }
+    ]
+  },
+  {
+    path: '/weather',
+    component: Layout,
+    redirect: '/weather',
+    name: 'task',
+    meta: {title: '天气信息', icon: 'weather'},
+    children: [
+      {
+        path: 'weather',
+        name: 'weather',
+        component: () => import('@/views/weather/index'),
+        meta: {title: '天气列表'}
+      },
+      {
+        path: 'addWeather',
+        name: 'addWeather',
+        component: () => import('@/views/weather/add'),
+        meta: {title: '添加天气'},
+        hidden: true
+      },
+      {
+        path: 'updateWeather',
+        name: 'updateWeather',
+        component: () => import('@/views/weather/update'),
+        meta: {title: '修改天气'},
+        hidden: true
+      },
     ]
   },
 
