@@ -175,8 +175,10 @@
         this.selectCategoryData();
       },
       initOrderCountDate() {
-        this.yearPayTime = 2021;
-        this.yearPic = 2021;
+        var date=new Date();
+        var year=date.getFullYear();
+        this.yearPayTime = year;
+        this.yearPic = year;
 
       },
       getData() {
